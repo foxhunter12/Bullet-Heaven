@@ -16,9 +16,15 @@ public:
 	sf::RectangleShape playerShape;
 
 	void render(sf::RenderWindow& window);
-	void update(sf::View& view);
+	void update(sf::View& view, int rX, int rY);
 	
 	float speed;
+	
+	bool isGoingLeft();
+	bool isGoingRight();
+	bool isGoingUp();
+	bool isGoingDown();
+		
 private:
 
 };
