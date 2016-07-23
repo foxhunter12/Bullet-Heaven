@@ -15,6 +15,16 @@ public:
 	
 	sf::RectangleShape playerShape;
 
+	sf::RectangleShape playerEngine;
+
+	sf::RectangleShape playerGlass;
+	
+	sf::RectangleShape playerGun;
+	
+	sf::RectangleShape playerLWing;
+
+	sf::RectangleShape playerRWing;
+
 	void render(sf::RenderWindow& window);
 	void update(sf::View& view, int rX, int rY);
 	
@@ -26,6 +36,17 @@ public:
 	bool isGoingDown();
 		
 private:
+
+	float playerEngineXC;
+	float playerEngineYC;
+	float playerGlassXC;
+	float playerGlassYC;
+	float playerGunXC;
+	float playerGunYC;
+	float playerLWingXC;
+	float playerLWingYC;
+	float playerRWingXC;
+	float playerRWingYC;
 
 };
 

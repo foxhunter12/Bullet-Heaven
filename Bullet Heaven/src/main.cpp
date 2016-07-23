@@ -87,6 +87,7 @@ int main(){
 			window.setMouseCursorVisible(false);
 		}
 
+
 		while(accumulator >= dt){ // UPDATING
 			if(inGame){ //INGAME
 
@@ -103,7 +104,6 @@ int main(){
 
 			}
 		}
-
 		window.setFramerateLimit(60);
 
 		window.display();
