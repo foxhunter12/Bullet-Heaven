@@ -2,13 +2,13 @@ CXX := g++
 
 TARGET := bulletheaven
 
-LD_LIBRARY_PATH := SFML-2.3.2/lib
+LD_LIBRARY_PATH := ../SFML-2.3.2/lib
  
 CXXFLAGS := -std=c++11
  
-LIBS := -LSFML-2.3.2/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+LIBS := -L../SFML-2.3.2/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
  
-INCLUDES := -ISFML-2.3.2/include
+INCLUDES := -I../SFML-2.3.2/include
 
 OBJECTS := $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
