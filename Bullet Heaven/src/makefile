@@ -4,7 +4,7 @@ TARGET := bulletheaven
 
 LD_LIBRARY_PATH := ../SFML-2.3.2/lib
  
-CXXFLAGS := -std=c++11
+CXXFLAGS := -std=c++11 -g -Wall
  
 LIBS := -L../SFML-2.3.2/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
  
@@ -22,7 +22,7 @@ all: default
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(TARGET): $(OBJECTS)
-	$(CXX) -Wall -c $(CXXFLAGS) $(LIBS) $(INCLUDES) -o $@
+	$(CXX) -g -Wall -c $(CXXFLAGS) $(LIBS) $(INCLUDES) -o $@
 
 .PRECIOUS: $(TARGET) $(OBJECTS)
  

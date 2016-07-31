@@ -7,6 +7,7 @@
 
 #include "Star.h"
 #include "Player.h"
+#include "ParticleEmitter.h"
 
 using namespace std;
 
@@ -61,9 +62,7 @@ int main(){
 
 	std::vector<std::unique_ptr<Star>> stars; // stars list obviously
 
-	while(window.isOpen()){
-
-		window.setView(view);
+	while(window.isOpen()){ window.setView(view);
 
 		sf::Event event;
 
@@ -75,7 +74,7 @@ int main(){
 		accumulator += clock.getElapsedTime().asSeconds();
 		clock.restart();
 
-		window.clear(); // RENDERING
+		window.clear(); // RENDERING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if(inGame){
 			for(unsigned int i = 0; i < stars.size(); i++){
 				stars[i]->render(stars, window);
@@ -88,7 +87,7 @@ int main(){
 		}
 
 
-		while(accumulator >= dt){ // UPDATING
+		while(accumulator >= dt){ // UPDATING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if(inGame){ //INGAME
 
 				accumulator -= dt;
@@ -101,6 +100,7 @@ int main(){
 						stars.erase(stars.begin() + i); // Erases stars if ^ (below screen)
 				}
 				player.update(view, resX, resY);
+
 
 			}
 		}

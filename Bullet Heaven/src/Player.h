@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
+#include "ParticleEmitter.h"
 
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -34,7 +34,8 @@ public:
 	bool isGoingRight();
 	bool isGoingUp();
 	bool isGoingDown();
-		
+
+	ParticleEmitter pe;
 private:
 
 	float playerEngineXC;
