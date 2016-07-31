@@ -52,12 +52,16 @@ Player::Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor):
 	playerRWing.setPosition(sf::Vector2f(pos.x+playerShape.getSize().x-5, pos.y+playerRWing.getSize().y-playerRWingYC+2));
 
 	speed = 2.5f; // Basically gamespeed
+    
+    pe1.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2) - pe1.baseSize.x, playerEngine.getPosition().y + playerEngine.getSize().y), sf::Vector2f(speed, speed), sf::Vector2f(3.f, 3.f), sf::Vector2f(20, 20), sf::Vector2f(.5f, .5f), 1.f, 15.f, 1, PET_DOWN, sf::Color(200, 200, 25)); // Create an particle emitter, with color orange.
 
-    pe.init(sf::Vector2f(playerEngine.getPosition().x, playerEngine.getPosition().y), sf::Vector2f(speed, speed), sf::Vector2f(5.f, 5.f), sf::Vector2f(20, 20), sf::Vector2f(.5f, .5f), 100, 2.f, 0.f, 1, PET_DOWN, sf::Color(200, 200, 25)); // Create an particle emitter, with color orange.
+    pe2.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2) - pe2.baseSize.y, playerEngine.getPosition().y + playerEngine.getSize().y), sf::Vector2f(speed, speed), sf::Vector2f(3.f, 3.f), sf::Vector2f(10, 10), sf::Vector2f(.5f, .5f), 1.f, 15.f, 1, PET_DOWN, sf::Color(255, 25, 25)); // Create an particle emitter, with color red.
+
 }
 
-void Player::render(sf::RenderWindow& window){
-    pe.render(window);
+   void Player::render(sf::RenderWindow& window){
+    pe2.render(window);
+    pe1.render(window);
 	window.draw(playerShape);
 	window.draw(playerGlass);
 	window.draw(playerEngine);
@@ -103,9 +107,12 @@ void Player::update(sf::View& view, int rX, int rY){
 	if(pos.y + size.y >= rY)
 		pos.y -= speed;
 	
-    pe.pos = playerEngine.getPosition();
+    pe1.pos = sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2) - pe1.baseSize.x, playerEngine.getPosition().y + playerEngine.getSize().y);
+    pe2.pos = sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2) - pe2.baseSize.y, playerEngine.getPosition().y + playerEngine.getSize().y);
 
-    pe.update(speed);
+    pe1.update(speed);
+    pe2.update(speed);
+
 }
 
 bool Player::isGoingLeft(){

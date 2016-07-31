@@ -35,7 +35,8 @@ public:
 	bool isGoingUp();
 	bool isGoingDown();
 
-	ParticleEmitter pe;
+	ParticleEmitter pe1;
+	ParticleEmitter pe2;
 private:
 
 	float playerEngineXC;
