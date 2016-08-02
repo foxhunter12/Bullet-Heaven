@@ -53,9 +53,9 @@ Player::Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor):
 
 	speed = 2.5f; // Basically gamespeed
     
-    pe1.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x + 5), playerEngine.getPosition().y + playerEngine.getSize().y - 10), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(10, 10), sf::Vector2f(.5f, .5f), 1.0f, 15.f, 1, PET_DOWN, sf::Color(200, 200, 25)); // Create an particle emitter, with color orange.
+    pe1.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2) - pe1.baseSize.x, playerEngine.getPosition().y + playerEngine.getSize().y), sf::Vector2f(speed, speed), sf::Vector2f(2.5f, 2.5f), sf::Vector2f(20, 20), sf::Vector2f(.5f, .5f), 1.f, 15.f, 1, PET_DOWN, sf::Color(200, 200, 25)); // Create an particle emitter, with color orange.
 
-    pe2.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x + 5), playerEngine.getPosition().y + playerEngine.getSize().y - 10), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(10, 10), sf::Vector2f(.5f, .5f), 1.f, 15.f, 1, PET_DOWN, sf::Color(255, 25, 25)); // Create an particle emitter, with color red.
+    pe2.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2) - pe2.baseSize.y, playerEngine.getPosition().y + playerEngine.getSize().y), sf::Vector2f(speed, speed), sf::Vector2f(2.5f, 2.5f), sf::Vector2f(10, 10), sf::Vector2f(.5f, .5f), 1.f, 15.f, 1, PET_DOWN, sf::Color(255, 25, 25)); // Create an particle emitter, with color red.
 
 }
 

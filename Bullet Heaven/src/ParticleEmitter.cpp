@@ -40,11 +40,12 @@ void ParticleEmitter::init(sf::Vector2f npos, sf::Vector2f nbaseSpeed, sf::Vecto
 
 	srand(time(NULL)); //Obvious -- just sets the random seed [lolnotevenrandomkthxc/c++]
 
+
 }	
 
 void ParticleEmitter::render(sf::RenderWindow& window){
 	for(unsigned int i = 0; i < particles.size(); i++){
-		window.draw(particles[i]->shape); // Basic rendering
+		window.draw(particles[i]->shape, sf::BlendAdd); // Basic rendering with a small render effect to make them brighter against other colors.
 	}
 }
 
@@ -59,7 +60,7 @@ void ParticleEmitter::update(float speed){
 		particles[i]->pos.x += particles[i]->speed.x;
 	   	particles[i]->pos.y += particles[i]->speed.y;	
 		particles[i]->shape.setPosition(particles[i]->pos);
-		particles[i]->shape.rotate(baseRotationSpeed);
+		particles[i]->shape.rotate(particles[i]->rotSpeed);
 		if(particles[i]->travelledDistanceX >= removeDistance.x || particles[i]->travelledDistanceY >= removeDistance.y){
 			particles.erase(particles.begin() + i);
 		}
@@ -121,6 +122,17 @@ void ParticleEmitter::createParticle(){
 	sf::Vector2f finalSpeed = sf::Vector2f(baseSpeed.x += tempSpeedX2, baseSpeed.y += tempSpeedY2); // apply the variation
 	sf::Vector2f finalSize = sf::Vector2f(baseSize.x += tempSizeX2, baseSize.y += tempSizeY2); // apply it
 
+	int tempRotSpeed = 150; // We need it as an int to randomize, so if we make it 10* bigger than normal, we can divide into a float after.
+
+	int tempRotSpeed2 = rand() % tempRotSpeed + 0;
+
+	int tempRotSpeedN = rand() % 3 + 1;
+
+	if(tempRotSpeedN == 1)
+		tempRotSpeed2 *= -1;
+
+	float finalRotSpeed = tempRotSpeed2 / 10;
+
 	switch(type){
 		case(PET_UP): finalSpeed.x *= 0; finalSpeed.x += tempSpeedX2; break;
 		case(PET_DOWN): finalSpeed.x *= 0; finalSpeed.x += tempSpeedX2; break;
@@ -128,5 +140,5 @@ void ParticleEmitter::createParticle(){
 		case(PET_RIGHT): finalSpeed.y *= 0; finalSpeed.y += tempSpeedY2; break;
 	}
 
-	particles.push_back(std::unique_ptr<Particle>(new Particle(pos, finalSpeed, finalSize, color))); // create the particle
+	particles.push_back(std::unique_ptr<Particle>(new Particle(pos, finalSpeed, finalSize, color, finalRotSpeed))); // create the particle
 }

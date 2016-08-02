@@ -37,6 +37,7 @@ public:
 
 	ParticleEmitter pe1;
 	ParticleEmitter pe2;
+
 private:
 
 	float playerEngineXC;
