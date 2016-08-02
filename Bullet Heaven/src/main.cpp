@@ -62,6 +62,8 @@ int main(){
 
 	std::vector<std::unique_ptr<Star>> stars; // stars list obviously
 
+	bool hasFocus = true;
+
 	while(window.isOpen()){ window.setView(view);
 
 		sf::Event event;
@@ -91,7 +93,12 @@ int main(){
 			if(inGame){ //INGAME
 
 				accumulator -= dt;
-				
+
+				if(!window.hasFocus() && hasFocus)
+					hasFocus = false;
+				else if(window.hasFocus() && !hasFocus)
+					hasFocus = true;
+			
 				starHandler(stars, starGenerateTimer, starGenerateTimerBase, resX, resY); // Updates stars
 				for(unsigned int i = 0; i < stars.size(); i++){
 					stars[i]->pos.y += player.speed;
@@ -99,7 +106,7 @@ int main(){
 					if(stars[i]->pos.y >= resY)
 						stars.erase(stars.begin() + i); // Erases stars if ^ (below screen)
 				}
-				player.update(view, resX, resY);
+				player.update(view, resX, resY, hasFocus);
 
 
 			}

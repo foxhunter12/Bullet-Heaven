@@ -26,7 +26,7 @@ public:
 	sf::RectangleShape playerRWing;
 
 	void render(sf::RenderWindow& window);
-	void update(sf::View& view, int rX, int rY);
+	void update(sf::View& view, int rX, int rY, bool hasFocus);
 	
 	float speed;
 	
@@ -37,6 +37,8 @@ public:
 
 	ParticleEmitter pe1;
 	ParticleEmitter pe2;
+
+	bool drawEngineParticles;
 
 private:
 
