@@ -130,7 +130,7 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
 
 }
 
-bool Player::isGoingLeft(){
+bool Player::isGoingLeft(){ // Input handlers, makes it quicker & easier on me.
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
 		return true;
 	}

@@ -94,9 +94,9 @@ int main(){
 
 				accumulator -= dt;
 
-				if(!window.hasFocus() && hasFocus)
+				if(!window.hasFocus() && hasFocus) // If the window isn't clicked on and active, then change that bool!
 					hasFocus = false;
-				else if(window.hasFocus() && !hasFocus)
+				else if(window.hasFocus() && !hasFocus) // Vice versa!
 					hasFocus = true;
 			
 				starHandler(stars, starGenerateTimer, starGenerateTimerBase, resX, resY); // Updates stars

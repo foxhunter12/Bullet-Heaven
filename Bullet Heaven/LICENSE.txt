@@ -1,4 +1,4 @@
-Bullet Heaven -- a minimal bullet dodging/shooting topdown 2d videogame developed in C++ using the SFML 2.3.2 library. All art and programming by Hunter Kepley
+Bullet Heaven -- a minimal bullet dodging/shooting topdown 2d videogame developed in C++ using the SFML 2.3.2 library. All art and programming (except SFML 2.3.2 and affiliated libraries and files, no rights owned to those)  by Hunter Kepley
     Copyright (C) 2016 Hunter Kepley
 
     This program is free software: you can redistribute it and/or modify
