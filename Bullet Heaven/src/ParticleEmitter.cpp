@@ -18,8 +18,8 @@ sizeVariation(nsizeVariation),
 baseRotationSpeed(nbaseRotationSpeed),
 particleCreateTimer(nparticleCreateTimer),
 type(ntype),
-color(color){
-	particleCreateTimerBase = particleCreateTimer;
+color(color),
+particleCreateTimerBase(particleCreateTimer){
 
 	srand(time(NULL)); //Obvious -- just sets the random seed [lolnotevenrandomkthxc/c++]
 
@@ -50,10 +50,6 @@ void ParticleEmitter::render(sf::RenderWindow& window){
 }
 
 void ParticleEmitter::update(float speed){
-	if(baseSpeed.x != speed || baseSpeed.y != speed){
-		baseSpeed.x = speed;
-		baseSpeed.y = speed;
-	}
 	for(unsigned int i = 0; i < particles.size(); i++){
 		particles[i]->travelledDistanceX++;
 		particles[i]->travelledDistanceY++;
@@ -81,7 +77,6 @@ void ParticleEmitter::createParticle(){
 	sf::Vector2f tempSize;
 
 	float speedVar = 10.f;
-	float sizeVar = sizeVariation;
 
 	switch(type){
 		case(PET_UP): tempSpeed = sf::Vector2f(0, baseSpeed.y * -1); break; // baseSpeed will be written as positive int's always
@@ -103,24 +98,30 @@ void ParticleEmitter::createParticle(){
 	if(tempSpeedYN == 1)
 		tempSpeedY2 *= -1;
 
-	int tempSizeX1 = rand() % (int)sizeVar + 0; // same for size
-	int tempSizeY1 = rand() % (int)sizeVar + 0;
-	int tempSizeXN = rand() % 3 + 1;
-	int tempSizeYN = rand() % 3 + 1;
+	int tempSizeX1 = 0;
+	tempSizeX1 = rand() % (int)sizeVariation + 0; // same for size
+	int tempSizeY1 = 0;
+	tempSizeY1 = rand() % (int)sizeVariation + 0;
+	int tempSizeXN = 0;
+	tempSizeXN = rand() % 3 + 1;
+	int tempSizeYN = 0;
+	tempSizeYN = rand() % 3 + 1;
 
 	float tempSizeX2 = (float)tempSizeX1 / 10.f;
 	float tempSizeY2 = (float)tempSizeY1 / 10.f;
 
-	if(tempSizeXN == 1)
+	if(tempSizeXN == 2)
 		tempSizeX2 *= -1;
 	if(tempSizeYN == 1)
-		tempSizeY2 *= -1;
+		tempSizeY2 *= -2;
 
 	tempSpeed = sf::Vector2f(tempSpeedX2, tempSpeedY2); // apply to a final variable
 	tempSize = sf::Vector2f(tempSizeX2, tempSizeY2);
 
-	sf::Vector2f finalSpeed = sf::Vector2f(baseSpeed.x += tempSpeedX2, baseSpeed.y += tempSpeedY2); // apply the variation
-	sf::Vector2f finalSize = sf::Vector2f(baseSize.x += tempSizeX2, baseSize.y += tempSizeY2); // apply it
+	sf::Vector2f finalSpeed = sf::Vector2f(baseSpeed.x + tempSpeedX2, baseSpeed.y + tempSpeedY2); // apply the variation
+	tempSizeY2 = tempSizeX2;
+	sf::Vector2f finalSize = sf::Vector2f(baseSize.x + tempSizeX2, baseSize.y + tempSizeY2); // apply it
+
 
 	int tempRotSpeed = 150; // We need it as an int to randomize, so if we make it 10* bigger than normal, we can divide into a float after.
 

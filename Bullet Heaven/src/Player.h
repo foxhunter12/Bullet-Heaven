@@ -21,10 +21,6 @@ public:
 	
 	sf::RectangleShape playerGun;
 	
-	sf::RectangleShape playerLWing;
-
-	sf::RectangleShape playerRWing;
-
 	void render(sf::RenderWindow& window);
 	void update(sf::View& view, int rX, int rY, bool hasFocus);
 	
@@ -48,10 +44,6 @@ private:
 	float playerGlassYC;
 	float playerGunXC;
 	float playerGunYC;
-	float playerLWingXC;
-	float playerLWingYC;
-	float playerRWingXC;
-	float playerRWingYC;
 
 };
 
