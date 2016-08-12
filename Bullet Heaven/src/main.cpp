@@ -15,7 +15,7 @@ std::unique_ptr<Star> makeStar(int w, int h){ // Generates a random star :^)
 	int tempX = rand() % w + 1;
 	int tempY = 1;
 
-	int startW = 3;
+	int startW = rand() % 4 + 1;
 	int startH = startW;
 	
 	return std::unique_ptr<Star>(new Star(sf::Vector2f((float)tempX, (float)tempY), sf::Vector2f(startW, startH)));
