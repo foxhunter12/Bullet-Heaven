@@ -8,6 +8,7 @@
 #include "Star.h"
 #include "Player.h"
 #include "ParticleEmitter.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ std::unique_ptr<Star> makeStar(int w, int h){ // Generates a random star :^)
 	int startW = rand() % 4 + 1;
 	int startH = startW;
 	
-	return std::unique_ptr<Star>(new Star(sf::Vector2f((float)tempX, (float)tempY), sf::Vector2f(startW, startH)));
+	return std::unique_ptr<Star>(new Star(sf::Vector2f((float)tempX, (float)tempY), sf::Vector2f(startW, startH), (rand() % 360 + 0)));
 }
 
 void starHandler(std::vector<std::unique_ptr<Star>>& stars, int& sgt, int& sgtb, int w, int h){ // Handles all star events
@@ -63,6 +64,13 @@ int main(){
 	std::vector<std::unique_ptr<Star>> stars; // stars list obviously
 
 	bool hasFocus = true;
+	
+	std::vector<std::unique_ptr<Enemy>> enemies;
+
+	float tempSpeed = player.speed + 1;
+
+	int enemyTimer = 150;
+	int enemyTimerBase = enemyTimer;
 
 	while(window.isOpen()){ window.setView(view);
 
@@ -81,6 +89,10 @@ int main(){
 			for(unsigned int i = 0; i < stars.size(); i++){
 				stars[i]->render(stars, window);
 
+			}
+
+			for(unsigned int i = 0 ; i < enemies.size(); i++){
+				enemies[i]->render(window);
 			}
 
 			player.render(window);
@@ -106,8 +118,31 @@ int main(){
 					if(stars[i]->pos.y >= resY)
 						stars.erase(stars.begin() + i); // Erases stars if ^ (below screen)
 				}
+			
 				player.update(view, resX, resY, hasFocus);
 
+				for(unsigned int i = 0; i < enemies.size(); i++){
+					enemies[i]->update();
+				}
+
+				if(enemyTimer <= 0){
+					int enemyChoice = rand() % 3 + 0;
+					if(enemyChoice == 1){
+						enemies.push_back(std::unique_ptr<Enemy>(new Enemy (sf::Vector2f(15, 20), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_DOWN, rand() % 30 + 15)));
+						enemyTimer = enemyTimerBase;
+					}	
+					else if(enemyChoice == 2){
+						enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_RIGHT, rand() % 30 + 15)));
+						enemyTimer = enemyTimerBase;
+					}		
+					else{
+						enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_LEFT, rand() % 30 + 15)));
+						enemyTimer = enemyTimerBase;
+					}
+				}
+				else{
+					enemyTimer--;
+				}
 
 			}
 		}

@@ -7,7 +7,7 @@
 
 class Star{
 public:
-	Star(sf::Vector2f nposition, sf::Vector2f nsize);
+	Star(sf::Vector2f nposition, sf::Vector2f nsize, int rot);
 	void render(std::vector<std::unique_ptr<Star>>& stars, sf::RenderWindow& window);
 	
 	sf::Vector2f pos;
