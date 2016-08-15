@@ -80,10 +80,10 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
 	else if(isGoingDown() && hasFocus){
 		pos.y += speed;
 	}
-    if(isGoingDown() && drawEngineParticles)
-        drawEngineParticles = false;
-    else if(!isGoingDown() && !drawEngineParticles)
+    if(isGoingUp() && !drawEngineParticles)
         drawEngineParticles = true;
+    else if(!isGoingUp() && drawEngineParticles)
+        drawEngineParticles = false;
 
     if(!drawEngineParticles){
         pe1.particles.clear();

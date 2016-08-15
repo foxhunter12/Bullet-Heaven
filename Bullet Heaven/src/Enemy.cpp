@@ -98,12 +98,14 @@ void Enemy::init(sf::Vector2f npos, sf::Vector2f nsize, float nspeed, sf::Color 
 	int tempW = 800 - size.x;
 	int tempH = 200;
 	type = ntype;
-	if(type == E_DOWN)
-		pos = sf::Vector2f(sf::Vector2f(rand() % tempW + 0, 0)); // World w: 800, h: 600(changed to 200 to make it more reasonable for play); If you are defining an enemy without a custom needed position.
-	else if(type == E_RIGHT)
-		pos = sf::Vector2f(sf::Vector2f(0, rand() % tempH + 0));
-	else if(type == E_LEFT)
-		pos = sf::Vector2f(sf::Vector2f(size.x, rand() % tempH + 0));
+	if(movementTimer < movementTimerBase){
+		if(type == E_DOWN)
+			pos = sf::Vector2f(sf::Vector2f(rand() % tempW + 0, 0)); // World w: 800, h: 600(changed to 200 to make it more reasonable for play); If you are defining an enemy without a custom needed position.
+		else if(type == E_RIGHT)
+			pos = sf::Vector2f(sf::Vector2f(0, rand() % tempH + 0));
+		else if(type == E_LEFT)
+			pos = sf::Vector2f(sf::Vector2f(size.x, rand() % tempH + 0));
+	}
 	shape.setPosition(pos);
 	size = nsize;
 	speed = nspeed;
@@ -116,7 +118,9 @@ void Enemy::init(sf::Vector2f npos, sf::Vector2f nsize, float nspeed, sf::Color 
 
 void Enemy::render(sf::RenderWindow& window){
 	if(alive){ // Le alive checkssss
-        pe1.render(window);
+		if(movementTimer < movementTimerBase){
+        	pe1.render(window);
+		}
 		window.draw(shape);
 	}
 }
@@ -125,24 +129,32 @@ void Enemy::update(){
 	if(alive){
 		shape.setPosition(pos);
 
-   		pe1.pos = sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2));
+		if(movementTimer < movementTimerBase){
+   			pe1.pos = sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2));
 
-        pe1.update(speed);
+        	pe1.update(speed);
+		}
 		
 		if(type == E_DOWN){ // Check which method to run
 			if(pos.y <= 300){ // Catch the random enemy that moves too far randomly because I'm too dumb to fix this
 				downMovement();
 			}
+			else
+				movementTimer = movementTimerBase;
 		}
 		else if(type == E_LEFT){ // 2
 			if(pos.x >= 450){
 				leftMovement();
 			}
+			else
+				movementTimer = movementTimerBase;
 		}
 		else if(type == E_RIGHT){ // 3
 			if(pos.x <= 400){
 				rightMovement();
 			}
+			else
+				movementTimer = movementTimerBase;
 		}
 	}
 }

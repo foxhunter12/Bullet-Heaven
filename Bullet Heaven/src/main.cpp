@@ -69,7 +69,7 @@ int main(){
 
 	float tempSpeed = player.speed + 1;
 
-	int enemyTimer = 150;
+	int enemyTimer = 225;
 	int enemyTimerBase = enemyTimer;
 
 	while(window.isOpen()){ window.setView(view);
@@ -128,15 +128,15 @@ int main(){
 				if(enemyTimer <= 0){
 					int enemyChoice = rand() % 3 + 0;
 					if(enemyChoice == 1){
-						enemies.push_back(std::unique_ptr<Enemy>(new Enemy (sf::Vector2f(15, 20), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_DOWN, rand() % 30 + 15)));
+						enemies.push_back(std::unique_ptr<Enemy>(new Enemy (sf::Vector2f(15, 20), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_DOWN, rand() % 40 + 20)));
 						enemyTimer = enemyTimerBase;
 					}	
 					else if(enemyChoice == 2){
-						enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_RIGHT, rand() % 30 + 15)));
+						enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_RIGHT, rand() % 40 + 20)));
 						enemyTimer = enemyTimerBase;
 					}		
 					else{
-						enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_LEFT, rand() % 30 + 15)));
+						enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_LEFT, rand() % 40 + 20)));
 						enemyTimer = enemyTimerBase;
 					}
 				}

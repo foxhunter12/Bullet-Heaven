@@ -128,7 +128,6 @@ void ParticleEmitter::createParticle(){
 		finalSize = sf::Vector2f(baseSize.x + tempSizeX2, baseSize.y + tempSizeY2); // apply it
 		break;
 		case(PET_LEFT):
-		cout << "bing" << endl;
 		finalSpeed = sf::Vector2f(tempXSpd, baseSpeed.y + tempSpeedY2); // apply the variation
 		tempSizeY2 = tempSizeX2;
 		finalSize = sf::Vector2f(baseSize.x + tempSizeX2, baseSize.y + tempSizeY2); // apply it
