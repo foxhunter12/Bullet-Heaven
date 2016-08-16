@@ -19,7 +19,8 @@ baseRotationSpeed(nbaseRotationSpeed),
 particleCreateTimer(nparticleCreateTimer),
 type(ntype),
 color(color),
-particleCreateTimerBase(particleCreateTimer){
+particleCreateTimerBase(particleCreateTimer),
+canMakeParticles(true){
 
 	srand(time(NULL)); //Obvious -- just sets the random seed [lolnotevenrandomkthxc/c++]
 
@@ -37,6 +38,7 @@ void ParticleEmitter::init(sf::Vector2f npos, sf::Vector2f nbaseSpeed, sf::Vecto
 	type = ntype;
 	color = ncolor;
 	particleCreateTimerBase = particleCreateTimer;
+	canMakeParticles = true;
 
 	srand(time(NULL)); //Obvious -- just sets the random seed [lolnotevenrandomkthxc/c++]
 
@@ -61,7 +63,7 @@ void ParticleEmitter::update(float speed){
 			particles.erase(particles.begin() + i);
 		}
 	}
-	if(particleCreateTimer <= 0){
+	if(particleCreateTimer <= 0 && canMakeParticles){
 		particleCreateTimer = particleCreateTimerBase;
 		createParticle();
 	}

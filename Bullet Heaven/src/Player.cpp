@@ -47,10 +47,8 @@ Player::Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor):
 }
 
 void Player::render(sf::RenderWindow& window){
-    if(drawEngineParticles){
-        pe2.render(window);
-        pe1.render(window);
-    }
+	pe2.render(window);
+	pe1.render(window);
 	window.draw(playerShape);
 	window.draw(playerGlass);
 	window.draw(playerEngine);
@@ -80,14 +78,17 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
 	else if(isGoingDown() && hasFocus){
 		pos.y += speed;
 	}
-    if(isGoingUp() && !drawEngineParticles)
+    if(isGoingUp() && !drawEngineParticles){
         drawEngineParticles = true;
+		pe1.canMakeParticles = true;
+		pe2.canMakeParticles = true;
+	}
     else if(!isGoingUp() && drawEngineParticles)
         drawEngineParticles = false;
 
     if(!drawEngineParticles){
-        pe1.particles.clear();
-        pe2.particles.clear();
+		pe1.canMakeParticles = false;
+		pe2.canMakeParticles = false;
     }
 
 	if(pos.x <= 0) // Make sure you don't leave the map :O
@@ -102,10 +103,8 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
     pe1.pos = sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2 + 1) - pe1.baseSize.x, playerEngine.getPosition().y + playerEngine.getSize().y);
     pe2.pos = sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2 + 1) - pe2.baseSize.y, playerEngine.getPosition().y + playerEngine.getSize().y);
 
-    if(drawEngineParticles){
-        pe1.update(speed);
-        pe2.update(speed);
-    }
+    pe1.update(speed);
+    pe2.update(speed);
 
 }
 

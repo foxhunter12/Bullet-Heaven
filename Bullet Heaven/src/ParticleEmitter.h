@@ -35,6 +35,7 @@ public:
 	void update(float speed);
 	void createParticle();
 	void init(sf::Vector2f npos, sf::Vector2f nbaseSpeed, sf::Vector2f nbaseSize, sf::Vector2f nremoveDistance, sf::Vector2f nspeedOffset, float nsizeVariation, float nbaseRotationSpeed, int nparticleCreateTimer, particleEmitterType ntype, sf::Color ncolor);
+	bool canMakeParticles;
 
 private:
 
