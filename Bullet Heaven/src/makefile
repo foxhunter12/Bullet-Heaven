@@ -6,7 +6,7 @@ LD_LIBRARY_PATH := ../SFML-2.3.2/lib
  
 CXXFLAGS := -std=c++11 -g -Wall -Wno-reorder
  
-LIBS := -L../SFML-2.3.2/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+LIBS := -L../SFML-2.3.2/lib -Isfml-graphics -Isfml-audio -Isfml-window -Isfml-system
  
 INCLUDES := -I../SFML-2.3.2/include
 
