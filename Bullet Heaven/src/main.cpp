@@ -58,7 +58,7 @@ int main(){
 
 	player.pos = sf::Vector2f((resX/2) - (player.size.x/2), (resY/2) - (player.size.y/2));
 
-	int starGenerateTimerBase = 10; // Couple of variables to control speed on which stars generate. ezpz
+	int starGenerateTimerBase = 15; // Couple of variables to control speed on which stars generate. ezpz
 	int starGenerateTimer = starGenerateTimerBase;
 
 	std::vector<std::unique_ptr<Star>> stars; // stars list obviously
@@ -69,7 +69,7 @@ int main(){
 
 	float tempSpeed = player.speed + 1;
 
-	int enemyTimer = 225;
+	int enemyTimer = 150;
 	int enemyTimerBase = enemyTimer;
 
 	while(window.isOpen()){ window.setView(view);
@@ -122,7 +122,10 @@ int main(){
 				player.update(view, resX, resY, hasFocus);
 
 				for(unsigned int i = 0; i < enemies.size(); i++){
-					enemies[i]->update();
+					enemies[i]->update(player.bullets);
+					if(enemies[i]->alive == false){
+						enemies.erase(enemies.begin() + i);
+					}
 				}
 
 				if(enemyTimer <= 0){

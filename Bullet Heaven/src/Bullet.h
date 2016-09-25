@@ -7,12 +7,15 @@
 
 class Bullet{
 public:
-	Bullet();
+	Bullet(sf::Vector2f npos, sf::Vector2f size, sf::Vector2f nspeed, sf::Color ncolor);
 
 	sf::Vector2f pos;
+	sf::Vector2f speed;
 	sf::Color color;
 	sf::RectangleShape shape;
-	ParticleEmitter particleEmitter;
+
+	void update();
+	void render(sf::RenderWindow& window);
 
 private:
 	

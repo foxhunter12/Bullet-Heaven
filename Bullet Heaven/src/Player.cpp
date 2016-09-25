@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "ParticleEmitter.h"
+#include "Bullet.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -38,15 +40,21 @@ Player::Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor):
 	playerGun.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerGun.getSize().x/2)), pos.y-playerGun.getSize().y));
 
 
-	speed = 2.5f; // Basically gamespeed, most movements [like stars] are based off of this speed to give the effect of travelling through space without moving the camera, minimizing math to be done when updating and overall making programming/the game go much smoother.
+	speed = 4.f; // Basically gamespeed, most movements [like stars] are based off of this speed to give the effect of travelling through space without moving the camera, minimizing math to be done when updating and overall making programming/the game go much smoother.
     
     pe1.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2 + 1), playerEngine.getPosition().y), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_DOWN, sf::Color(200, 200, 25)); // Create an particle emitter, with color orange.
 
     pe2.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2 + 1), playerEngine.getPosition().y), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(10, 10), sf::Vector2f(1.f, 1.f), 30.f, 15.f, 1, PET_DOWN, sf::Color(255, 25, 25)); // Create an particle emitter, with color red.
 
+	bulletTimerBase = 40;
+	bulletTimer = bulletTimerBase;
+
 }
 
 void Player::render(sf::RenderWindow& window){
+	for(unsigned int i = 0; i < bullets.size(); i++){
+		bullets[i]->render(window);
+	}
 	pe2.render(window);
 	pe1.render(window);
 	window.draw(playerShape);
@@ -55,11 +63,23 @@ void Player::render(sf::RenderWindow& window){
 	window.draw(playerGun);
 }
 
-void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
+void Player::update(sf::View& view, int rX, int rY, bool hasFocus ){
 	playerShape.setPosition(pos); // All the position setting.
 	playerEngine.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerEngine.getSize().x/2)), pos.y+playerShape.getSize().y));
 	playerGlass.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerGlass.getSize().x/2)), pos.y+playerGlassYC));
 	playerGun.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerGun.getSize().x/2)), pos.y-playerGun.getSize().y));
+	if(bulletTimer > 0){
+		bulletTimer--;
+	}
+	for(unsigned int i = 0; i < bullets.size(); i++){
+		bullets[i]->update();
+	}
+	if(isSpacebar()){
+		if(bulletTimer <= 0){
+			bullets.push_back(std::unique_ptr<Bullet>(new Bullet(playerGun.getPosition(), playerGun.getSize(), sf::Vector2f(0, -speed*2), sf::Color::Red)));
+			bulletTimer = bulletTimerBase;
+		}
+	}
 	if(playerShape.getSize().x != size.x || playerShape.getSize().y != size.y){ // If the ship changes size, change
 		playerShape.setSize(size);
 		playerEngine.setSize(sf::Vector2f(playerShape.getSize().x/playerEngineXC,playerShape.getSize().y/playerEngineYC));
@@ -137,6 +157,15 @@ bool Player::isGoingUp(){
 
 bool Player::isGoingDown(){
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool Player::isSpacebar(){
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
 		return true;
 	}
 	else{

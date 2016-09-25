@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Enemy.h"
 #include "ParticleEmitter.h"
+#include "Bullet.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ alive(true){
 	if(type == E_RIGHT){
     	pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(20, 20), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_LEFT, sf::Color(100, 100, 25)); // Create an particle emitter, with color orange.
 	}
+	alive = true;
 }
 
 Enemy::Enemy(sf::Vector2f nsize, float nspeed, sf::Color ncolor, sf::Color noutlineColor, float noutlineThickness, enemyType ntype, int nmovementTimer):
@@ -65,6 +67,7 @@ alive(true){
 	if(type == E_RIGHT){
     	pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_LEFT, sf::Color(200, 200, 25)); // Create an particle emitter, with color orange.
 	}
+	alive = true;
 }
 
 Enemy::Enemy(): // Default const.
@@ -91,6 +94,7 @@ alive(true){
 	shape.setFillColor(color);
 	shape.setOutlineColor(outlineColor);
 	shape.setOutlineThickness(outlineThickness);
+	alive = true;
 }
 
 void Enemy::init(sf::Vector2f npos, sf::Vector2f nsize, float nspeed, sf::Color ncolor, sf::Color noutlineColor, float noutlineThickness, enemyType ntype, int nmovementTimer){ // For default contructor/new params.
@@ -113,6 +117,7 @@ void Enemy::init(sf::Vector2f npos, sf::Vector2f nsize, float nspeed, sf::Color 
 	outlineColor = noutlineColor;
 	outlineThickness = noutlineThickness;
 	movementTimerBase = nmovementTimer;
+	alive = true;
 
 }
 
@@ -126,7 +131,7 @@ void Enemy::render(sf::RenderWindow& window){
 	}
 }
 
-void Enemy::update(){
+void Enemy::update(std::vector<std::unique_ptr<Bullet>>& playerBullets){
 	if(alive){
 		shape.setPosition(pos);
 
@@ -155,6 +160,13 @@ void Enemy::update(){
 			}
 			else
 				movementTimer = movementTimerBase;
+		}
+	}
+
+	for(unsigned int i = 0; i < playerBullets.size(); i++){
+		if(shape.getGlobalBounds().intersects(playerBullets[i]->shape.getGlobalBounds())){
+			alive = false;
+			playerBullets.erase(playerBullets.begin() + i);
 		}
 	}
 }

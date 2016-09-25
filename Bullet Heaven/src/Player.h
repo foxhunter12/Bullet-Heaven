@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "ParticleEmitter.h"
+#include "Bullet.h"
 
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -30,13 +31,19 @@ public:
 	bool isGoingRight();
 	bool isGoingUp();
 	bool isGoingDown();
+	bool isSpacebar();
 
 	ParticleEmitter pe1;
 	ParticleEmitter pe2;
 
 	bool drawEngineParticles;
+	
+	std::vector<std::unique_ptr<Bullet>> bullets;
 
 private:
+
+	int bulletTimer;
+	int bulletTimerBase;
 
 	float playerEngineXC;
 	float playerEngineYC;

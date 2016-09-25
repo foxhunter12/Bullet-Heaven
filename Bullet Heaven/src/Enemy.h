@@ -30,11 +30,10 @@ public:
 	sf::Color outlineColor;
 	float outlineThickness;
 	bool alive;
-	
 	enemyType type;
 
 	void render(sf::RenderWindow& window);
-	void update();
+	void update(std::vector<std::unique_ptr<Bullet>>& playerBullets);
 	void init(sf::Vector2f npos, sf::Vector2f nsize, float nspeed, sf::Color ncolor, sf::Color noutlineColor, float noutlineThickness, enemyType ntype, int nmovementTimer);
 
 	int movementTimer;
