@@ -1,14 +1,10 @@
-CXX := g++
+CXX = g++
+TARGET = bulletheaven
 
-TARGET := bulletheaven
-
-LD_LIBRARY_PATH := ../SFML-2.3.2/lib
- 
-CXXFLAGS := -std=c++11 -g -Wall -Wno-reorder
- 
-LIBS := -L../SFML-2.3.2/lib -Isfml-graphics -Isfml-audio -Isfml-window -Isfml-system
- 
-INCLUDES := -I../SFML-2.3.2/include
+CXXFLAGS = -std=c++11 -g -O2 -Wall -Wno-reorder
+CPPFLAGS = -I../SFML-2.3.2/include
+LDFLAGS = -L../SFML-2.3.2/lib
+LIBS = -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
 OBJECTS := $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
@@ -18,19 +14,10 @@ default: $(TARGET)
 
 all: default
 
-%.o: %.cpp $(LIBS) $(INCLUDES)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(TARGET): $(OBJECTS)
-	$(CXX) -g -Wall -Wno-reorder -c $(CXXFLAGS) $(LIBS) $(INCLUDES) -o $@
-
 .PRECIOUS: $(TARGET) $(OBJECTS)
- 
+
 $(TARGET): $(OBJECTS)
-	@echo "** Building the game"
-	$(CXX) -o ../BulletHeaven $(OBJECTS) $(CXXFLAGS) $(LIBS)
-	@echo "** Done building"
+        $(CXX) -o $@ $^ $(LDFLAGS) $(LIBS)
 
 clean:
-	-rm -rf *.o
-	-rm -rf $(TARGET)
+        -rm -rf $(OBJECTS) $(TARGET)
