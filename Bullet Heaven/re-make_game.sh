@@ -16,6 +16,10 @@ make
 
 echo "Done making game."
 
+echo "Moving game"
+
+mv BulletHeaven ../
+
 cd ..
 
 echo "Running game."
