@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "ParticleEmitter.h"
+#include <memory.h>
 
 #ifndef BULLET_H
 #define BULLET_H

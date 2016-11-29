@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
+#include <memory.h>
 #include "Particle.h"
 
 #ifndef PARTICLEEMITTER_H
