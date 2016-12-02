@@ -55,7 +55,7 @@ Player::Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor):
 
 		pe2.init(sf::Vector2f(playerEngine.getPosition().x + (playerEngine.getSize().x/2 + 1), playerEngine.getPosition().y), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(10, 10), sf::Vector2f(1.f, 1.f), 30.f, 15.f, 1, PET_DOWN, sf::Color(255, 25, 25)); // Create an particle emitter, with color red.
 
-		bulletTimerBase = 30;
+		bulletTimerBase = 40;
 		bulletTimer = bulletTimerBase;
 
 	}
