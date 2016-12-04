@@ -19,7 +19,7 @@ all: default
 .PRECIOUS: $(TARGET) $(OBJECTS)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(INCLUDES) $(LIBS) -o $@ $^
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(INCLUDES) $(LIBS) -o -std=c++11 $@ $^
 
 clean:
 	-rm -rf $(OBJECTS) $(TARGET)
