@@ -6,23 +6,26 @@
 
 class Shield{
 
-	public:
+    public:
 
-		Shield(sf::Vector2f npos, sf::Color shieldColor, float outlineThickness, sf::Vector2f nsize, int nshieldTimer);
+	Shield();
 
-		sf::Vector2f pos;
+	sf::Vector2f pos;
 
-		void update();
-		void render(sf::RenderWindow& window);
+	void update();
+	void render(sf::RenderWindow& window);
 
-		sf::RectangleShape shape;
+	sf::RectangleShape shape;
 
-		sf::Vector2f size;
+	sf::Vector2f size;
+    
+	int cR, cG, cB;
 
-		int shieldTimer;
-		int shieldTimerBase;
+    private:
 
-	private:
+	bool colorBBool;
+	bool colorRBool;
+	bool colorGBool;
 
 };
 

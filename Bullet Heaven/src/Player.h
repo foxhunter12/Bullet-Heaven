@@ -8,59 +8,69 @@
 #define PLAYER_H
 
 class Player{
-	public:
-		Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor);
+    public:
+	Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor);
 
-		sf::Color baseColor;
-		sf::Vector2f pos;
-		sf::Vector2f size;
+	sf::Color baseColor;
+	sf::Vector2f pos;
+	sf::Vector2f size;
 
-		sf::RectangleShape playerShape;
+	sf::RectangleShape playerShape;
 
-		sf::RectangleShape playerEngine;
+	sf::RectangleShape playerEngine;
 
-		sf::RectangleShape playerGlass;
+	sf::RectangleShape playerGlass;
 
-		sf::RectangleShape playerGun;
+	sf::RectangleShape playerGun;
 
-		void render(sf::RenderWindow& window);
-		void update(sf::View& view, int rX, int rY, bool hasFocus);
+	void render(sf::RenderWindow& window);
+	void update(sf::View& view, int rX, int rY, bool hasFocus);
 
-		float speed;
+	float speed;
 
-		bool isGoingLeft();
-		bool isGoingRight();
-		bool isGoingUp();
-		bool isGoingDown();
-		bool isSpacebar();
-		bool isPressingE();
+	bool isGoingLeft();
+	bool isGoingRight();
+	bool isGoingUp();
+	bool isGoingDown();
+	bool isSpacebar();
+	bool isPressingE();
 
-		ParticleEmitter pe1;
-		ParticleEmitter pe2;
+	ParticleEmitter pe1;
+	ParticleEmitter pe2;
 
-		bool drawEngineParticles;
+	bool drawEngineParticles;
 
-		std::vector<std::unique_ptr<Bullet>> bullets;
+	std::vector<std::unique_ptr<Bullet>> bullets;
 
-		bool alive;
+	bool alive;
 
-		int lives;
+	int lives;
 
-		int playerLifeAnimationTimer, playerLifeAnimationTimerBase;
+	int playerLifeAnimationTimer, playerLifeAnimationTimerBase;
 
-		bool canRender;
+	bool canRender;
+    
+	Shield shield;
 
-	private:
+	bool shieldBool;
 
-		int bulletTimer;
-		int bulletTimerBase;
+    private:
 
-		float playerEngineXC;
-		float playerEngineYC;
-		float playerGlassXC;
-		float playerGlassYC;
-		float playerGunXC;
-		float playerGunYC;
+	int bulletTimer;
+	int bulletTimerBase;
+
+	float playerEngineXC;
+	float playerEngineYC;
+	float playerGlassXC;
+	float playerGlassYC;
+	float playerGunXC;
+	float playerGunYC;
+
+	int shieldTimer;
+	int shieldTimerBase;
+
+	int shieldCooldown;
+	int shieldCooldownBase;
 
 };
 
