@@ -84,8 +84,8 @@ void Player::render(sf::RenderWindow& window){
 
 void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
     if(alive){
-	shieldTimerBase = 130; // HOW LONG SHIELD LASTS
-	shieldCooldownBase = 600; // HOW LONG THE SHIELD COOLDOWN IS
+	shieldTimerBase = 220; // HOW LONG SHIELD LASTS
+	shieldCooldownBase = 650; // HOW LONG THE SHIELD COOLDOWN IS
 	// This is all the player's ship parts, and their positions. Makes it easy to keep track of them and not have to do much math to place'em.
 	playerShape.setPosition(pos); // All the position setting.
 	playerEngine.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerEngine.getSize().x/2)), pos.y+playerShape.getSize().y));
@@ -120,11 +120,26 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
         if(shieldBool == true){ // Shieeeeeeeeeeeeeeeeeeeeeeeeeeeeeelddd!
 
 	    shieldTimer--;
-	    if(shieldTimer <= 0){
-		shieldBool = false;
-		shieldTimer = shieldTimerBase;
-	    }
+	    if(shieldTimer <= (shieldTimerBase/2) - (shield.size.y/2)){
+		shield.shape.setOutlineColor(sf::Color::White);
+		shield.canChangeColor = false;
+		if(shieldTimer <= shield.size.y - size.y){
+		
+		    if(shield.size.x >= 0){
+			shield.size.x--; // This makes the shield noticable when it's about to die so you aren't surprised.
+		    }
+		    if(shield.size.y >= 0){
+			shield.size.y--;
+		    }
 
+		    if(shieldTimer <= 0){
+			shield.size = shield.sizeBase;
+			shield.canChangeColor = true;
+			shieldBool = false;
+			shieldTimer = shieldTimerBase;
+		    }
+		}
+	    }
 	
 	}
 	

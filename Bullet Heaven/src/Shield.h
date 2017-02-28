@@ -18,8 +18,11 @@ class Shield{
 	sf::RectangleShape shape;
 
 	sf::Vector2f size;
+	sf::Vector2f sizeBase;
     
 	int cR, cG, cB;
+
+	bool canChangeColor;
 
     private:
 
