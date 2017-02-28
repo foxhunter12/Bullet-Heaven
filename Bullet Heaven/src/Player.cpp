@@ -85,7 +85,7 @@ void Player::render(sf::RenderWindow& window){
 void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
     if(alive){
 	shieldTimerBase = 130; // HOW LONG SHIELD LASTS
-	shieldCooldownBase = 10; // HOW LONG THE SHIELD COOLDOWN IS
+	shieldCooldownBase = 600; // HOW LONG THE SHIELD COOLDOWN IS
 	// This is all the player's ship parts, and their positions. Makes it easy to keep track of them and not have to do much math to place'em.
 	playerShape.setPosition(pos); // All the position setting.
 	playerEngine.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerEngine.getSize().x/2)), pos.y+playerShape.getSize().y));

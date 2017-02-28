@@ -2,6 +2,11 @@
 
 Bullet Heaven
 
-Controls -- WASD to move ship, Spacebar to shoot, R to respawn once dead.
+Controls -- WASD to move ship.
+	    Spacebar to shoot.
+	    R to respawn/restart once dead.
+	    Press E to use shield.
 
-foxhunter12@gmail.com -- contact
+kepley.l.hunter@gmail.com -- contact
+
+Game by Hunter L. Kepley
