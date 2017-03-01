@@ -120,6 +120,10 @@ int main(){
 			player.pos = sf::Vector2f((resX/2) - (player.size.x/2), (resY/2) - (player.size.y/2));
 			player.alive = true;
 			player.lives = 2;
+			player.cR = 0;
+			player.cG = 0;
+			player.cB = 255;
+			player.playerShape.setFillColor(sf::Color(player.cR, player.cG, player.cB));
 			player.playerLifeAnimationTimer = player.playerLifeAnimationTimerBase;
 		    }
 		}
@@ -153,6 +157,19 @@ int main(){
 		}
 
 		if(player.lives == 1){
+		    if(player.colorBool){
+			player.cR += 5;
+			if(player.cR >= 255){
+			    player.colorBool = false;
+			}
+		    }
+		    else{
+			player.cR -= 5;
+			if(player.cR <= 0){
+			    player.colorBool = true;
+			}
+		    }
+		    player.playerShape.setFillColor(sf::Color(player.cR, player.cG, player.cB));
 		    if(player.playerLifeAnimationTimer > 0){
 			player.playerLifeAnimationTimer--;
 			if(player.playerLifeAnimationTimer == 25 || player.playerLifeAnimationTimer == 15){

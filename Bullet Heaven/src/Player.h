@@ -54,6 +54,10 @@ class Player{
 
 	bool shieldBool;
 
+	int cR, cG, cB;
+    
+	bool colorBool;
+
     private:
 
 	int bulletTimer;

@@ -16,6 +16,14 @@ Player::Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor):
 
 	lives = 2;
 
+	cR = 0;
+	cG = 0;
+	cB = 255;
+
+	baseColor = sf::Color(cR, cG, cB);
+
+	colorBool = true;
+
 	drawEngineParticles = true;
 
 	playerLifeAnimationTimer = 30;
