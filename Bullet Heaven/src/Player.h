@@ -23,6 +23,8 @@ class Player{
 
 	sf::RectangleShape playerGun;
 
+	sf::RectangleShape shieldBar;
+
 	void render(sf::RenderWindow& window);
 	void update(sf::View& view, int rX, int rY, bool hasFocus);
 

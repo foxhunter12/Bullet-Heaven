@@ -31,6 +31,10 @@ Player::Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor):
 
 	canRender = true;
 
+	shieldBar.setFillColor(sf::Color(100, 255, 100));
+	shieldBar.setSize(sf::Vector2f(size.x, 4));
+	shieldBar.setPosition(sf::Vector2f(pos.x, pos.y + (size.y - (shieldBar.getSize().y + (shieldBar.getSize().y/2)))));
+
 	playerShape.setFillColor(baseColor);
 	playerShape.setSize(size);
 	playerShape.setPosition(pos);
@@ -82,6 +86,7 @@ void Player::render(sf::RenderWindow& window){
 	    window.draw(playerGlass);
 	    window.draw(playerEngine);
 	    window.draw(playerGun);
+	    window.draw(shieldBar);
 	    
 	    if(shieldBool){
 		shield.render(window);
@@ -99,6 +104,8 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
 	playerEngine.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerEngine.getSize().x/2)), pos.y+playerShape.getSize().y));
 	playerGlass.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerGlass.getSize().x/2)), pos.y+playerGlassYC));
 	playerGun.setPosition(sf::Vector2f(pos.x+((playerShape.getSize().x/2)-(playerGun.getSize().x/2)), pos.y-playerGun.getSize().y));
+	shieldBar.setPosition(sf::Vector2f(pos.x, pos.y + (size.y - (shieldBar.getSize().y + (shieldBar.getSize().y/2)))));
+	shieldBar.setSize(sf::Vector2f(((shieldCooldown/(shieldCooldownBase/100.0f))/100.0f) * size.x, 4)); // Retarded math to make the shield cooldown bar fit on the ship.
 	if(bulletTimer > 0){
 	    bulletTimer--;
 	}
