@@ -119,7 +119,7 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
 		bulletTimer = bulletTimerBase;
 	    }
 	}
-	if(isPressingE() && shieldCooldown <= 0){ // Controls the shield.
+	if(isPressingE() && shieldCooldown <= 0 && alive){ // Controls the shield.
 
 	    shieldBool = true;
 

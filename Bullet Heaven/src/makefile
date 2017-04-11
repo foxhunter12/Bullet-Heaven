@@ -1,7 +1,7 @@
 CXX = g++
 TARGET = BulletHeaven
 
-CXXFLAGS = -std=c++11 -g -O2 -Wall -Wno-reorder
+CXXFLAGS = -std=c++14 -g -O2 -Wall -Wno-reorder
 CPPFLAGS = -I../SFML-2.3.2/include
 LDFLAGS = -L../SFML-2.3.2/lib
 LD_LIBRARY_PATH := ../SFML-2.3.2/lib

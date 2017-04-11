@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "ParticleEmitter.h"
 #include "Enemy.h"
+#include "Explosion.h"
 
 using namespace std;
 
@@ -63,13 +64,15 @@ int main(){
 
     std::vector<std::unique_ptr<Star>> stars; // stars list obviously
 
+    std::vector<std::unique_ptr<Explosion>> explosions; // List o' explosions for when enemies die.
+
     bool hasFocus = true;
 
     std::vector<std::unique_ptr<Enemy>> enemies;
 
     float tempSpeed = player.speed + 1;
 
-    int enemyTimer = 115;
+    int enemyTimer = 110;
 
     int enemyTimerBase = enemyTimer;
 
@@ -90,6 +93,10 @@ int main(){
 	    for(unsigned int i = 0; i < stars.size(); i++){
 		stars[i]->render(stars, window);
 
+	    }
+
+	    for(unsigned int i = 0; i < explosions.size(); i++){
+		explosions[i]->render(window);
 	    }
 
 	    for(unsigned int i = 0 ; i < enemies.size(); i++){
@@ -138,18 +145,35 @@ int main(){
 
 		player.update(view, resX, resY, hasFocus);
 
+		for(unsigned int j = 0; j < explosions.size(); j++){
+		    explosions[j]->update();
+		    if(explosions[j]->shapes.size() <= 0 && explosions[j]->amountMade >= explosions[j]->amount){
+			explosions.erase(explosions.begin() + j);
+		    }
+		}
+
 		for(unsigned int i = 0; i < enemies.size(); i++){
 		    enemies[i]->update(player.bullets, player.pos, player.alive);
+		    if(!enemies[i]->alive){
+			std::unique_ptr<Explosion> explosion = std::make_unique<Explosion>(enemies[i]->pos);
+
+			if(!enemies[i]->exploded){
+			    explosions.push_back(std::move(explosion));
+			    enemies[i]->exploded = true;
+			}
+
+		    }
+
 		    for(unsigned int o = 0; o < enemies[i]->bullets.size(); o++){ // Enemy bullets -> player collisions and handling
 			if(player.shieldBool == false){
-			    if(enemies[i]->bullets[o]->shape.getGlobalBounds().intersects(player.playerShape.getGlobalBounds())){
+			    if(player.alive && enemies[i]->bullets[o]->shape.getGlobalBounds().intersects(player.playerShape.getGlobalBounds())){
 				enemies[i]->bullets.erase(enemies[i]->bullets.begin() + o);
-			        if(player.lives <= 1) player.alive = false;
+				if(player.lives <= 1) player.alive = false;
 				else if(player.lives == 2) player.lives --;
 			    }
 			}
 			else{
-			    if(enemies[i]->bullets[o]->shape.getGlobalBounds().intersects(player.shield.shape.getGlobalBounds())){
+			    if(player.alive && enemies[i]->bullets[o]->shape.getGlobalBounds().intersects(player.shield.shape.getGlobalBounds())){
 				enemies[i]->bullets.erase(enemies[i]->bullets.begin() + o);
 			    }
 			}

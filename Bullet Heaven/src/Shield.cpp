@@ -7,7 +7,7 @@ using namespace std;
 
 Shield::Shield(){
     pos = sf::Vector2f(0.f, 0.f);
-    size = sf::Vector2f(45.0f, 55.0f);
+    size = sf::Vector2f(26.0f, 50.0f);
     sizeBase = size;
     shape.setSize(size);
     shape.setOutlineThickness(2.0f);
