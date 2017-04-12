@@ -98,6 +98,7 @@ int main(){
     int helpTextTimer = helpTextTimerBase;
 
     sf::Text controlsText("WASD - Move\nSpacebar - Shoot\nE - Shield\nR - Restart", font, 20);
+    controlsText.setPosition(player.pos.x - 100, player.pos.y + player.size.y + 50);
 
     sf::Text restartText("Press \"R\" to restart.", font, 20);
     restartText.setColor(sf::Color::White);
@@ -124,6 +125,11 @@ int main(){
 
     fin >> highScore;
     fin.close();
+
+    bool helpOpen = false;
+
+    int helpTimerBase = 10;
+    int helpTimer = helpTimerBase;
 
     while(window.isOpen()){ window.setView(view);
 
@@ -158,6 +164,8 @@ int main(){
 	    window.draw(highScoreText);
 	    if(helpTextTimer > 0 && player.alive) window.draw(helpText);
 	    if(!player.alive) window.draw(restartText);
+
+	    if(helpOpen && player.alive && helpTextTimer <= (helpTextTimerBase/2)) window.draw(controlsText);
 
 	    window.setMouseCursorVisible(false);
 	}
@@ -320,6 +328,19 @@ int main(){
 		}
 		else{
 		    enemyTimer--;
+		}
+
+		helpTimer--;
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
+		    if(!helpOpen && helpTimer <= 0){
+			helpOpen = true;
+			helpTimer = helpTimerBase;
+		    }
+		    else if(helpOpen && helpTimer <= 0){
+			helpOpen = false;
+			helpTimer = helpTimerBase;
+		    }
 		}
 
 	    }
