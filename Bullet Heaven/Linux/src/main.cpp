@@ -5,6 +5,7 @@
 #include <deque>
 #include <ctime>
 #include <string>
+#include <fstream>
 
 #include "Star.h"
 #include "Player.h"
@@ -78,8 +79,10 @@ int main(){
     int enemyTimerBase = enemyTimer;
 
     int score = 0;
+    int highScore = 0;
 
     string scoreString = std::to_string(score);
+    string highScoreString = std::to_string(highScore);
 
     sf::Font font;
 
@@ -87,11 +90,40 @@ int main(){
 	cout << "Error; font not found \"src/INVASION2000.TTF\"" << endl;
     }    
 
-    sf::Text scoreText("Kills: " + scoreString, font, 15);
+    sf::Text helpText("Press \"H\" for help", font, 25);
+    helpText.setColor(sf::Color(71,198, 45));
+    helpText.setPosition(player.pos.x - 100, player.pos.y + player.size.y + 25);
+
+    int helpTextTimerBase = enemyTimer+(enemyTimer/2);
+    int helpTextTimer = helpTextTimerBase;
+
+    sf::Text controlsText("WASD - Move\nSpacebar - Shoot\nE - Shield\nR - Restart", font, 20);
+
+    sf::Text restartText("Press \"R\" to restart.", font, 20);
+    restartText.setColor(sf::Color::White);
+    restartText.setPosition(player.pos.x - 100, player.pos.y + player.size.y + 25);
+
+    sf::Text scoreText("Kills: " + scoreString, font, 20);
 
     scoreText.setColor(sf::Color::White);
 
-    scoreText.setPosition(sf::Vector2f(10, 10));
+    scoreText.setPosition(sf::Vector2f(5, 10));
+
+    sf::Text highScoreText("HiScore: " + highScoreString, font, 15);
+
+    highScoreText.setColor(sf::Color::White);
+
+    highScoreText.setPosition(sf::Vector2f(5, 32));
+
+    ofstream fout;
+    ifstream fin;
+    fin.open("src/LOG.SAV");
+    if(!fin.is_open()){
+	cout << "Error; file not found \"src/LOG.SAV\"" << endl;
+    }
+
+    fin >> highScore;
+    fin.close();
 
     while(window.isOpen()){ window.setView(view);
 
@@ -123,6 +155,9 @@ int main(){
 	    player.render(window);
 
 	    window.draw(scoreText);
+	    window.draw(highScoreText);
+	    if(helpTextTimer > 0 && player.alive) window.draw(helpText);
+	    if(!player.alive) window.draw(restartText);
 
 	    window.setMouseCursorVisible(false);
 	}
@@ -139,8 +174,21 @@ int main(){
 		    hasFocus = true;
 
 		scoreString = std::to_string(score);
+		highScoreString = std::to_string(highScore);
+
+		if(score >= highScore){
+		    scoreText.setColor(sf::Color(198, 245, 117));
+		    highScoreText.setColor(sf::Color(198, 245, 117));
+		}
+		else if(score < highScore){
+		    scoreText.setColor(sf::Color::White);
+		    highScoreText.setColor(sf::Color::White);
+		}
+
+		helpTextTimer--;
 
 		scoreText.setString("Kills: " + scoreString);
+		highScoreText.setString("HiScore: " + highScoreString);
 
 		if(!player.alive){ //IT'S ALIVEEE!!
 		    if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
@@ -154,6 +202,12 @@ int main(){
 			player.cG = 0;
 			player.cB = 255;
 			score = 0;
+			helpTextTimer = helpTextTimerBase;
+			scoreText.setCharacterSize(20);
+			highScoreText.setCharacterSize(15);
+			highScoreText.setPosition(5, 32);
+			scoreText.setColor(sf::Color::White);
+			highScoreText.setColor(sf::Color::White);
 			player.shieldTimer = player.shieldTimerBase;
 			player.shieldCooldown = 0;
 			player.playerShape.setFillColor(sf::Color(player.cR, player.cG, player.cB));
@@ -194,7 +248,25 @@ int main(){
 			if(player.shieldBool == false){
 			    if(player.alive && enemies[i]->bullets[o]->shape.getGlobalBounds().intersects(player.playerShape.getGlobalBounds())){
 				enemies[i]->bullets.erase(enemies[i]->bullets.begin() + o);
-				if(player.lives <= 1) player.alive = false;
+				if(player.lives <= 1){ 
+				    if(score > highScore){
+					fout.open("src/LOG.SAV");
+					if(!fout.is_open()){
+					    cout << "Error; file not found \"src/LOG.SAV\"" << endl;
+					}
+					highScore = score;
+					fout << highScore;
+					fout.close();
+				    }
+				    int tempSize = scoreText.getCharacterSize();
+				    scoreText.setCharacterSize(50);
+				    highScoreText.setCharacterSize(45);
+				    highScoreText.move(0, scoreText.getCharacterSize() - tempSize);
+				    scoreText.setColor(sf::Color(249, 154, 0));
+				    highScoreText.setColor(sf::Color(249, 154, 0));
+
+				    player.alive = false;
+				}
 				else if(player.lives == 2) player.lives --;
 			    }
 			}
