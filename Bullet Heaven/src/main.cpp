@@ -87,7 +87,7 @@ int main(){
 	cout << "Error; font not found \"src/INVASION2000.TTF\"" << endl;
     }    
 
-    sf::Text scoreText("Kills: " + scoreString, font, 20);
+    sf::Text scoreText("Kills: " + scoreString, font, 15);
 
     scoreText.setColor(sf::Color::White);
 
@@ -153,6 +153,9 @@ int main(){
 			player.cR = 0;
 			player.cG = 0;
 			player.cB = 255;
+			score = 0;
+			player.shieldTimer = player.shieldTimerBase;
+			player.shieldCooldown = 0;
 			player.playerShape.setFillColor(sf::Color(player.cR, player.cG, player.cB));
 			player.playerLifeAnimationTimer = player.playerLifeAnimationTimerBase;
 		    }

@@ -60,6 +60,11 @@ class Player{
     
 	bool colorBool;
 
+	int shieldCooldown;
+	int shieldCooldownBase;
+	int shieldTimer;
+	int shieldTimerBase;
+
     private:
 
 	int bulletTimer;
@@ -71,13 +76,6 @@ class Player{
 	float playerGlassYC;
 	float playerGunXC;
 	float playerGunYC;
-
-	int shieldTimer;
-	int shieldTimerBase;
-
-	int shieldCooldown;
-	int shieldCooldownBase;
-
 };
 
 #endif
