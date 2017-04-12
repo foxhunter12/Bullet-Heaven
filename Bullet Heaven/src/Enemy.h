@@ -36,7 +36,7 @@ class Enemy{
 	enemyType type;
 
 	void render(sf::RenderWindow& window);
-	void update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vector2f playerPos, bool playerAlive);
+	void update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vector2f playerPos, bool playerAlive, int& score);
 	void init(sf::Vector2f npos, sf::Vector2f nsize, float nspeed, sf::Color ncolor, sf::Color noutlineColor, float noutlineThickness, enemyType ntype, int nmovementTimer);
 
 	int movementTimer;

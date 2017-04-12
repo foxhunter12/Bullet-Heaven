@@ -149,7 +149,7 @@ void Enemy::render(sf::RenderWindow& window){
     }
 }
 
-void Enemy::update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vector2f playerPos, bool playerAlive){
+void Enemy::update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vector2f playerPos, bool playerAlive, int& score){
     if(alive){
 	shape.setPosition(pos);
 
@@ -192,6 +192,7 @@ void Enemy::update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vect
     for(unsigned int i = 0; i < playerBullets.size(); i++){
 	if(shape.getGlobalBounds().intersects(playerBullets[i]->shape.getGlobalBounds()) && alive){
 	    alive = false;
+	    score++;
 	    playerBullets.erase(playerBullets.begin() + i);
 	}
     }

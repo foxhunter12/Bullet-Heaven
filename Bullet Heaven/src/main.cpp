@@ -4,6 +4,7 @@
 #include <memory>
 #include <deque>
 #include <ctime>
+#include <string>
 
 #include "Star.h"
 #include "Player.h"
@@ -76,6 +77,22 @@ int main(){
 
     int enemyTimerBase = enemyTimer;
 
+    int score = 0;
+
+    string scoreString = std::to_string(score);
+
+    sf::Font font;
+
+    if(!font.loadFromFile("src/INVASION2000.TTF")){
+	cout << "Error; font not found \"src/INVASION2000.TTF\"" << endl;
+    }    
+
+    sf::Text scoreText("Kills: " + scoreString, font, 20);
+
+    scoreText.setColor(sf::Color::White);
+
+    scoreText.setPosition(sf::Vector2f(10, 10));
+
     while(window.isOpen()){ window.setView(view);
 
 	sf::Event event;
@@ -105,6 +122,8 @@ int main(){
 
 	    player.render(window);
 
+	    window.draw(scoreText);
+
 	    window.setMouseCursorVisible(false);
 	}
 
@@ -118,6 +137,10 @@ int main(){
 		    hasFocus = false;
 		else if(window.hasFocus() && !hasFocus) // Vice versa!
 		    hasFocus = true;
+
+		scoreString = std::to_string(score);
+
+		scoreText.setString("Kills: " + scoreString);
 
 		if(!player.alive){ //IT'S ALIVEEE!!
 		    if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
@@ -153,7 +176,7 @@ int main(){
 		}
 
 		for(unsigned int i = 0; i < enemies.size(); i++){
-		    enemies[i]->update(player.bullets, player.pos, player.alive);
+		    enemies[i]->update(player.bullets, player.pos, player.alive, score);
 		    if(!enemies[i]->alive){
 			std::unique_ptr<Explosion> explosion = std::make_unique<Explosion>(enemies[i]->pos);
 
