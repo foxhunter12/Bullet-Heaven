@@ -36,6 +36,32 @@ void starHandler(std::vector<std::unique_ptr<Star>>& stars, int& sgt, int& sgtb,
 
 }
 
+sf::View getLetterboxView(sf::View view, int windowWidth, int windowHeight){
+
+    float windowRatio = windowWidth / (float)windowHeight;
+    float viewRatio = view.getSize().x / (float)view.getSize().y;
+    float sizeX = 1;
+    float sizeY = 1;
+    float posX = 0;
+    float posY = 0;
+
+    bool horizontalSpacing = true;
+    if(windowRatio < viewRatio)
+	horizontalSpacing = false;
+
+    if(horizontalSpacing){
+	sizeX = viewRatio / windowRatio;
+	posX = (1 - sizeX) / 2.f;
+    }
+    else{
+	sizeY = windowRatio / viewRatio;
+	posY = (1 - sizeY) / 2.f;
+    }
+
+    view.setViewport(sf::FloatRect(posX, posY, sizeX, sizeY));
+    return view;
+}
+
 int main(){
 
     int resX = 800;
@@ -51,11 +77,12 @@ int main(){
 
     sf::Clock clock;
 
-    sf::RenderWindow window(sf::VideoMode(resX, resY), "Bullet Heaven", sf::Style::Close); //Basic window properties
+    sf::RenderWindow window(sf::VideoMode(resX, resY), "Bullet Heaven", (sf::Style::Resize + sf::Style::Close)); //Basic window properties
 
     sf::View view;
     view.setSize(resX, resY);
     view.setCenter(view.getSize().x / 2, view.getSize().y / 2);
+    view = getLetterboxView(view, resX, resY);
 
     Player player(sf::Vector2f(0, 0), sf::Vector2f(20, 35), sf::Color::Blue);
 
@@ -63,6 +90,15 @@ int main(){
 
     int starGenerateTimerBase = 15; // Couple of variables to control speed on which stars generate. ezpz
     int starGenerateTimer = starGenerateTimerBase;
+
+    sf::RectangleShape background;
+
+    background.setFillColor(sf::Color::Transparent);
+    background.setOutlineThickness(1);
+    sf::Color backgroundColor = sf::Color(40, 190, 40);
+    background.setOutlineColor(backgroundColor);
+    background.setPosition(sf::Vector2f(1, 1));
+    background.setSize(sf::Vector2f(resX-2, resY-2));
 
     std::vector<std::unique_ptr<Star>> stars; // stars list obviously
 
@@ -138,6 +174,11 @@ int main(){
 	while(window.pollEvent(event)){
 	    if(event.type == sf::Event::Closed)
 		window.close();
+	    
+	    if(event.type == sf::Event::Resized){
+		view = getLetterboxView(view, event.size.width, event.size.height);
+		//background.setSize(sf::Vector2f(view.getSize().x, view.getSize().y));
+	    }
 	}
 
 	accumulator += clock.getElapsedTime().asSeconds();
@@ -145,6 +186,8 @@ int main(){
 
 	window.clear(); // RENDERING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	if(inGame){
+	    window.draw(background);
+
 	    for(unsigned int i = 0; i < stars.size(); i++){
 		stars[i]->render(stars, window);
 
@@ -181,8 +224,16 @@ int main(){
 		else if(window.hasFocus() && !hasFocus) // Vice versa!
 		    hasFocus = true;
 
+
+		cout << "Window size: " << window.getSize().x << ", " << window.getSize().y << endl;
+
 		scoreString = std::to_string(score);
 		highScoreString = std::to_string(highScore);
+
+		backgroundColor.r++; // Random colors for the game's outline.
+		backgroundColor.g+=2;
+		backgroundColor.b+=3;
+		background.setOutlineColor(backgroundColor);
 
 		if(score >= highScore){
 		    scoreText.setColor(sf::Color(198, 245, 117));
@@ -331,6 +382,12 @@ int main(){
 		}
 
 		helpTimer--;
+
+		if(window.getSize().x <= 800)
+		    window.setSize(sf::Vector2u(800, 600));
+		if(window.getSize().y <= 600)
+		    window.setSize(sf::Vector2u(800, 600));
+
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
 		    if(!helpOpen && helpTimer <= 0){
