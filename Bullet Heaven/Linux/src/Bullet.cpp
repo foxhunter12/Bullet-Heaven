@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Bullet.h"
-#include <memory.h>
+#include <memory>
 
 using namespace std;
 

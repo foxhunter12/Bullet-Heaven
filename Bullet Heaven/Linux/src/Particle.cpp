@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include "Particle.h"
 
 using namespace std;

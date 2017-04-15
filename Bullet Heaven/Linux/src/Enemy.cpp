@@ -4,6 +4,7 @@
 #include "ParticleEmitter.h"
 #include "Bullet.h"
 #include <cmath>
+#include <memory>
 
 using namespace std;
 

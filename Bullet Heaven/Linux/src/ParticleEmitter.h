@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory.h>
 #include "Particle.h"
+#include <memory>
 
 #ifndef PARTICLEEMITTER_H
 #define PARTICLEEMITTER_H

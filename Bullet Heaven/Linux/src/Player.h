@@ -3,6 +3,7 @@
 #include "ParticleEmitter.h"
 #include "Bullet.h"
 #include "Shield.h"
+#include <memory>
 
 #ifndef PLAYER_H
 #define PLAYER_H

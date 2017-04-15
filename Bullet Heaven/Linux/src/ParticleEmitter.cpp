@@ -3,6 +3,7 @@
 #include <memory.h>
 #include "ParticleEmitter.h"
 #include "Particle.h"
+#include <memory>
 
 using namespace std;
 

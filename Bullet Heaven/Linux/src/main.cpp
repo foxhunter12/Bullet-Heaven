@@ -6,6 +6,7 @@
 #include <ctime>
 #include <string>
 #include <fstream>
+#include <memory>
 
 #include "Star.h"
 #include "Player.h"
@@ -294,12 +295,12 @@ int main(){
 		for(unsigned int i = 0; i < enemies.size(); i++){
 		    enemies[i]->update(player.bullets, player.pos, player.alive, score);
 		    if(!enemies[i]->alive){
-			std::unique_ptr<Explosion> explosion = std::make_unique<Explosion>(enemies[i]->pos);
+				std::unique_ptr<Explosion> explosion = std::make_unique<Explosion>(enemies[i]->pos);
 
-			if(!enemies[i]->exploded){
-			    explosions.push_back(std::move(explosion));
-			    enemies[i]->exploded = true;
-			}
+				if(!enemies[i]->exploded){
+					explosions.push_back(std::move(explosion));
+					enemies[i]->exploded = true;
+				}
 
 		    }
 

@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Bullet.h"
 #include "ParticleEmitter.h"
+#include <memory>
 
 #ifndef ENEMY_H
 #define ENEMY_H

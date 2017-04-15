@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 #ifndef EXPLOSION_H
 #define EXPLOSION_H

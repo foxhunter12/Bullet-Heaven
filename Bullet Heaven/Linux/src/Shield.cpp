@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
+#include <memory>
 #include "Shield.h"
 
 using namespace std;

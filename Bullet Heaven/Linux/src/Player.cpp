@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Shield.h"
+#include <memory>
 
 using namespace std;
 

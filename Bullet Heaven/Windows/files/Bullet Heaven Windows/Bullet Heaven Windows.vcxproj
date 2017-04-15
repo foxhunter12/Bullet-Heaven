@@ -71,48 +71,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="api-ms-win-crt-runtime-l1-1-0.dll" />
-    <None Include="LOG.SAV" />
-    <None Include="msvcp140.dll" />
-    <None Include="msvcp140d.dll" />
-    <None Include="openal32.dll" />
-    <None Include="sfml-audio-2.dll" />
-    <None Include="sfml-audio-d-2.dll" />
-    <None Include="sfml-graphics-2.dll" />
-    <None Include="sfml-graphics-d-2.dll" />
-    <None Include="sfml-network-2.dll" />
-    <None Include="sfml-network-d-2.dll" />
-    <None Include="sfml-system-2.dll" />
-    <None Include="sfml-system-d-2.dll" />
-    <None Include="sfml-window-2.dll" />
-    <None Include="sfml-window-d-2.dll" />
-    <None Include="ucrtbased.dll" />
-    <None Include="vcruntime140.dll" />
-    <None Include="vcruntime140d.dll" />
+    <ClCompile Include="..\..\..\Linux\src\Bullet.cpp" />
+    <ClCompile Include="..\..\..\Linux\src\Enemy.cpp" />
+    <ClCompile Include="..\..\..\Linux\src\Explosion.cpp" />
+    <ClCompile Include="..\..\..\Linux\src\main.cpp" />
+    <ClCompile Include="..\..\..\Linux\src\Particle.cpp" />
+    <ClCompile Include="..\..\..\Linux\src\ParticleEmitter.cpp" />
+    <ClCompile Include="..\..\..\Linux\src\Player.cpp" />
+    <ClCompile Include="..\..\..\Linux\src\Shield.cpp" />
+    <ClCompile Include="..\..\..\Linux\src\Star.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Explosion.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="ParticleEmitter.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Shield.cpp" />
-    <ClCompile Include="Star.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Explosion.h" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="ParticleEmitter.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Shield.h" />
-    <ClInclude Include="Star.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="INVASION2000.TTF" />
+    <ClInclude Include="..\..\..\Linux\src\Bullet.h" />
+    <ClInclude Include="..\..\..\Linux\src\Enemy.h" />
+    <ClInclude Include="..\..\..\Linux\src\Explosion.h" />
+    <ClInclude Include="..\..\..\Linux\src\Particle.h" />
+    <ClInclude Include="..\..\..\Linux\src\ParticleEmitter.h" />
+    <ClInclude Include="..\..\..\Linux\src\Player.h" />
+    <ClInclude Include="..\..\..\Linux\src\Shield.h" />
+    <ClInclude Include="..\..\..\Linux\src\Star.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

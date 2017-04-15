@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 #ifndef SHIELD_H
 #define SHIELD_H

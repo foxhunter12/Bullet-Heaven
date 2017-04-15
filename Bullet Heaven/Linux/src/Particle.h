@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 #ifndef PARTICLE_H
 #define PARTICLE_H

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Explosion.h"
+#include <memory>
 
 using namespace std;
 
