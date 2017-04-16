@@ -105,8 +105,6 @@ int main(){
 
     std::vector<std::unique_ptr<Explosion>> explosions; // List o' explosions for when enemies die.
 
-    bool hasFocus = true;
-
     std::vector<std::unique_ptr<Enemy>> enemies;
 
     float tempSpeed = player.speed + 1;
@@ -219,11 +217,6 @@ int main(){
 	    if(inGame){ //INGAME
 
 		accumulator -= dt;
-
-		if(!window.hasFocus() && hasFocus) // If the window isn't clicked on and active, then change that bool!
-		    hasFocus = false;
-		else if(window.hasFocus() && !hasFocus) // Vice versa!
-		    hasFocus = true;
 
 		scoreString = std::to_string(score);
 		highScoreString = std::to_string(highScore);
