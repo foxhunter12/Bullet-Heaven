@@ -225,9 +225,6 @@ int main(){
 		else if(window.hasFocus() && !hasFocus) // Vice versa!
 		    hasFocus = true;
 
-
-		cout << "Window size: " << window.getSize().x << ", " << window.getSize().y << endl;
-
 		scoreString = std::to_string(score);
 		highScoreString = std::to_string(highScore);
 
