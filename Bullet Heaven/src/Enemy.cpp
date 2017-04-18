@@ -146,11 +146,11 @@ void Enemy::render(sf::RenderWindow& window){
 	window.draw(shape);
     }
     for(unsigned int i = 0; i < bullets.size(); i++){
-	bullets[i]->render(window);
+	bullets[i].render(window);
     }
 }
 
-void Enemy::update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vector2f playerPos, bool playerAlive, int& score){
+void Enemy::update(std::vector<Bullet>& playerBullets, sf::Vector2f playerPos, bool playerAlive, int& score){
     if(alive){
 	shape.setPosition(pos);
 
@@ -164,7 +164,8 @@ void Enemy::update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vect
 	    float angle = atan2(playerPos.y - pos.y, playerPos.x - pos.x); // Some trig for ya ba-bee
 	    float speedX = cos(angle) * (speed*1.5f); // Get's the x-line [cos gets x]
 	    float speedY = sin(angle) * (speed*1.5f); // Get's the y-line [sin gets y]
-	    bullets.push_back(std::unique_ptr<Bullet>(new Bullet(shape.getPosition(), sf::Vector2f(8.f, 8.f), sf::Vector2f(speedX, speedY), sf::Color::Green, sf::Color::Red)));
+	    Bullet bullet(shape.getPosition(), sf::Vector2f(8.f, 8.f), sf::Vector2f(speedX, speedY), sf::Color::Green, sf::Color::Red);
+	    bullets.push_back(bullet);
 	    bulletCreateTimer = bulletCreateTimerBase;
 	}
 	if(type == E_DOWN){ // Check which method to run
@@ -191,7 +192,7 @@ void Enemy::update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vect
     }
 
     for(unsigned int i = 0; i < playerBullets.size(); i++){
-	if(shape.getGlobalBounds().intersects(playerBullets[i]->shape.getGlobalBounds()) && alive){
+	if(shape.getGlobalBounds().intersects(playerBullets[i].shape.getGlobalBounds()) && alive){
 	    alive = false;
 	    score++;
 	    playerBullets.erase(playerBullets.begin() + i);
@@ -199,8 +200,8 @@ void Enemy::update(std::vector<std::unique_ptr<Bullet>>& playerBullets, sf::Vect
     }
 
     for(unsigned int i = 0; i < bullets.size(); i++){
-	bullets[i]->update();
-	if(bullets[i]->deleteThis) bullets.erase(bullets.begin() + i);
+	bullets[i].update();
+	if(bullets[i].deleteThis) bullets.erase(bullets.begin() + i);
     }
 }
 

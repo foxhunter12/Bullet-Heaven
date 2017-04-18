@@ -78,7 +78,7 @@ Player::Player(sf::Vector2f npos, sf::Vector2f nsize, sf::Color nbaseColor):
 void Player::render(sf::RenderWindow& window){
     if(alive){
 	for(unsigned int i = 0; i < bullets.size(); i++){
-	    bullets[i]->render(window);
+	    bullets[i].render(window);
 	}
 	if(canRender){
 	    pe2.render(window);
@@ -88,7 +88,7 @@ void Player::render(sf::RenderWindow& window){
 	    window.draw(playerEngine);
 	    window.draw(playerGun);
 	    window.draw(shieldBar);
-	    
+
 	    if(shieldBool){
 		shield.render(window);
 	    }
@@ -111,12 +111,13 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
 	    bulletTimer--;
 	}
 	for(unsigned int i = 0; i < bullets.size(); i++){
-	    bullets[i]->update();
-	    if(bullets[i]->deleteThis) bullets.erase(bullets.begin() + i);
+	    bullets[i].update();
+	    if(bullets[i].deleteThis) bullets.erase(bullets.begin() + i);
 	}
 	if(isSpacebar()){
 	    if(bulletTimer <= 0){
-		bullets.push_back(std::unique_ptr<Bullet>(new Bullet(playerGun.getPosition(), playerGun.getSize(), sf::Vector2f(0, -speed*2.3f), sf::Color::Red)));
+		Bullet bullet(playerGun.getPosition(), playerGun.getSize(), sf::Vector2f(0, -speed*2.3f), sf::Color::Red);
+		bullets.push_back(bullet);
 		bulletTimer = bulletTimerBase;
 	    }
 	}
@@ -133,14 +134,14 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
 	    shieldCooldown--;
 	}
 
-        if(shieldBool == true){ // Shieeeeeeeeeeeeeeeeeeeeeeeeeeeeeelddd!
+	if(shieldBool == true){ // Shieeeeeeeeeeeeeeeeeeeeeeeeeeeeeelddd!
 
 	    shieldTimer--;
 	    if(shieldTimer <= (shieldTimerBase/2) - (shield.size.y/2)){
 		shield.shape.setOutlineColor(sf::Color::White);
 		shield.canChangeColor = false;
 		if(shieldTimer <= shield.size.y - size.y){
-		
+
 		    if(shield.size.x >= 0){
 			shield.size.x--; // This makes the shield noticable when it's about to die so you aren't surprised.
 		    }
@@ -156,12 +157,12 @@ void Player::update(sf::View& view, int rX, int rY, bool hasFocus){
 		    }
 		}
 	    }
-	
+
 	}
-	
+
 	shield.pos = sf::Vector2f((pos.x + (size.x/2.0f)) - (shield.size.x/2.0f), (pos.y + (size.y/2.0f)) - (shield.size.y/2.0f));
 	shield.update();
-	
+
 	if(playerShape.getSize().x != size.x || playerShape.getSize().y != size.y){ // If the ship changes size, change
 	    playerShape.setSize(size);
 	    playerEngine.setSize(sf::Vector2f(playerShape.getSize().x/playerEngineXC,playerShape.getSize().y/playerEngineYC));

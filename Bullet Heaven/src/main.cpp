@@ -13,20 +13,22 @@
 #include "ParticleEmitter.h"
 #include "Enemy.h"
 #include "Explosion.h"
+#include "Button.h"
 
 using namespace std;
 
-std::unique_ptr<Star> makeStar(int w, int h){ // Generates a random star :^)
+Star makeStar(int w, int h){ // Generates a random star :^)
     int tempX = rand() % w + 1;
     int tempY = 1;
 
     int startW = rand() % 4 + 1;
     int startH = startW;
 
-    return std::unique_ptr<Star>(new Star(sf::Vector2f((float)tempX, (float)tempY), sf::Vector2f(startW, startH), (rand() % 360 + 0)));
+    Star star(sf::Vector2f((float)tempX, (float)tempY), sf::Vector2f(startW, startH), (rand() % 360 + 0));
+    return star;
 }
 
-void starHandler(std::vector<std::unique_ptr<Star>>& stars, int& sgt, int& sgtb, int w, int h){ // Handles all star events
+void starHandler(std::vector<Star>& stars, int& sgt, int& sgtb, int w, int h){ // Handles all star events
     if(sgt > 0){
 	sgt--;
     }
@@ -70,8 +72,8 @@ int main(){
 
     srand(time(NULL)); //Obvious -- just sets the random seed [lolnotevenrandomkthxc/c++]
 
-    bool inGame = true;
-    //bool inMenu = false;
+    bool inGame = false;
+    bool inMenu = true;
 
     float dt = 1.f/40.f; // Modify this to change physics rate.
     float accumulator = 0.f;
@@ -79,6 +81,8 @@ int main(){
     sf::Clock clock;
 
     sf::RenderWindow window(sf::VideoMode(resX, resY), "Bullet Heaven", (sf::Style::Resize + sf::Style::Close)); //Basic window properties
+
+    bool hasFocus = true;
 
     sf::View view;
     view.setSize(resX, resY);
@@ -101,11 +105,11 @@ int main(){
     background.setPosition(sf::Vector2f(1, 1));
     background.setSize(sf::Vector2f(resX-2, resY-2));
 
-    std::vector<std::unique_ptr<Star>> stars; // stars list obviously
+    std::vector<Star> stars; // stars list obviously
 
-    std::vector<std::unique_ptr<Explosion>> explosions; // List o' explosions for when enemies die.
+    std::vector<Explosion> explosions; // List o' explosions for when enemies die.
 
-    std::vector<std::unique_ptr<Enemy>> enemies;
+    std::vector<Enemy> enemies;
 
     float tempSpeed = player.speed + 1;
 
@@ -166,6 +170,44 @@ int main(){
     int helpTimerBase = 10;
     int helpTimer = helpTimerBase;
 
+    std::vector<Button> buttons;
+    
+    sf::Text titleText("Bullet Heaven", font, 60);
+    
+    titleText.setColor(sf::Color::White);
+    titleText.setPosition(sf::Vector2f(resX/2 - 225, 20));
+
+    Button playButton(sf::Vector2f(resX/2 - 100, resY/2), sf::Color(25, 25, 25), sf::Color(200, 200, 200), 5.f, sf::Vector2f(200, 50), "Start");
+    Button quitButton(sf::Vector2f(resX/2 - 100, playButton.pos.y + playButton.size.y + 20), sf::Color(25, 25, 25), sf::Color(200, 50, 25), 5.f, sf::Vector2f(200, 50), "Quit");
+    playButton.text.setFont(font);
+    quitButton.text.setFont(font);
+
+    playButton.selected = true;
+
+    buttons.push_back(playButton);
+    buttons.push_back(quitButton);
+
+    sf::RectangleShape selectionShape1;
+    sf::RectangleShape selectionShape2;
+
+    selectionShape1.setFillColor(sf::Color::Transparent);
+    selectionShape1.setOutlineColor(sf::Color::White);
+    selectionShape1.setOutlineThickness(7.f);
+    selectionShape1.setSize(sf::Vector2f(25, 25));
+    selectionShape2.setFillColor(sf::Color::Transparent);
+    selectionShape2.setOutlineColor(sf::Color::White);
+    selectionShape2.setOutlineThickness(7.f);
+    selectionShape2.setSize(sf::Vector2f(25, 25));
+
+    selectionShape1.setPosition(playButton.pos.x - 42, playButton.pos.y + ((float)(25/2)));
+    selectionShape2.setPosition(playButton.pos.x + playButton.size.x + 17, playButton.pos.y + ((float)(25/2)));
+
+    sf::Text pauseText("Paused", font, 45);
+    pauseText.setColor(sf::Color::White);
+    pauseText.setPosition(sf::Vector2f(resX/2 - 85, 150));
+
+    bool drawPauseText = false;
+
     while(window.isOpen()){ window.setView(view);
 
 	sf::Event event;
@@ -173,50 +215,109 @@ int main(){
 	while(window.pollEvent(event)){
 	    if(event.type == sf::Event::Closed)
 		window.close();
-	    
+
 	    if(event.type == sf::Event::Resized){
 		view = getLetterboxView(view, event.size.width, event.size.height);
 		//background.setSize(sf::Vector2f(view.getSize().x, view.getSize().y));
 	    }
+
+	    if(event.type == sf::Event::LostFocus)
+		hasFocus = false;
+	    else if(event.type == sf::Event::GainedFocus)
+		hasFocus = true;
 	}
 
 	accumulator += clock.getElapsedTime().asSeconds();
 	clock.restart();
 
 	window.clear(); // RENDERING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	if(inMenu){
+	    for(unsigned int i = 0; i < stars.size(); i++){
+		stars[i].render(stars, window);
+	    }
+
+	    for(unsigned int i = 0; i < buttons.size(); i++){
+		buttons[i].render(window);
+	    }
+	    window.draw(titleText);
+	    window.draw(selectionShape1);
+	    window.draw(selectionShape2);
+
+	    if(drawPauseText)
+		window.draw(pauseText);
+
+	}
 	if(inGame){
 	    window.draw(background);
 
 	    for(unsigned int i = 0; i < stars.size(); i++){
-		stars[i]->render(stars, window);
-
+		stars[i].render(stars, window);
 	    }
 
 	    for(unsigned int i = 0; i < explosions.size(); i++){
-		explosions[i]->render(window);
+		explosions[i].render(window);
 	    }
 
 	    for(unsigned int i = 0 ; i < enemies.size(); i++){
-		enemies[i]->render(window);
+		enemies[i].render(window);
 	    }
 
 	    player.render(window);
 
 	    window.draw(scoreText);
 	    window.draw(highScoreText);
-	    if(helpTextTimer > 0 && player.alive) window.draw(helpText);
-	    if(!player.alive) window.draw(restartText);
+	    if(helpTextTimer > 0 && player.alive) 
+		window.draw(helpText);
+	    if(!player.alive)
+		window.draw(restartText);
 
-	    if(helpOpen && player.alive && helpTextTimer <= (helpTextTimerBase/2)) window.draw(controlsText);
+	    if(helpOpen && player.alive && helpTextTimer <= (helpTextTimerBase/2))
+		window.draw(controlsText);
 
-	    window.setMouseCursorVisible(false);
 	}
 
+	window.setMouseCursorVisible(false);
 
 	while(accumulator >= dt){ // UPDATING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	    if(inGame){ //INGAME
+	    accumulator -= dt;
+	    if(inMenu){
+		for(unsigned int i = 0; i < buttons.size(); i++){
+		    buttons[i].update();
+		}
+		if(playButton.isPressed()){
+		    inGame = true;
+		    inMenu = false;
+		}
+		if(quitButton.isPressed())
+		   window.close(); 
 
-		accumulator -= dt;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+		    if(playButton.selected){
+			selectionShape1.setPosition(quitButton.pos.x - 42, quitButton.pos.y + ((float)(25/2)));
+			selectionShape2.setPosition(quitButton.pos.x + quitButton.size.x + 17, quitButton.pos.y + ((float)(25/2)));
+			playButton.selected = false;
+			quitButton.selected = true;
+		    }
+		}
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+		    if(quitButton.selected){
+			selectionShape1.setPosition(playButton.pos.x - 42, playButton.pos.y + ((float)(25/2)));
+			selectionShape2.setPosition(playButton.pos.x + playButton.size.x + 17, playButton.pos.y + ((float)(25/2)));
+			quitButton.selected = false;
+			playButton.selected = true;
+		    }
+		}
+
+		starHandler(stars, starGenerateTimer, starGenerateTimerBase, resX, resY); // Updates stars
+		for(unsigned int i = 0; i < stars.size(); i++){
+		    stars[i].pos.y += player.speed;
+		    stars[i].starShape.setPosition(stars[i].pos);
+		    if(stars[i].pos.y >= resY)
+			stars.erase(stars.begin() + i); // Erases stars if ^ (below screen)
+		}
+
+	    }
+	    if(inGame){ //INGAME
 
 		scoreString = std::to_string(score);
 		highScoreString = std::to_string(highScore);
@@ -225,6 +326,14 @@ int main(){
 		backgroundColor.g+=2;
 		backgroundColor.b+=3;
 		background.setOutlineColor(backgroundColor);
+
+		starHandler(stars, starGenerateTimer, starGenerateTimerBase, resX, resY); // Updates stars
+		for(unsigned int i = 0; i < stars.size(); i++){
+		    stars[i].pos.y += player.speed;
+		    stars[i].starShape.setPosition(stars[i].pos);
+		    if(stars[i].pos.y >= resY)
+			stars.erase(stars.begin() + i); // Erases stars if ^ (below screen)
+		}
 
 		if(score >= highScore){
 		    scoreText.setColor(sf::Color(198, 245, 117));
@@ -265,39 +374,36 @@ int main(){
 		    }
 		}
 
-		starHandler(stars, starGenerateTimer, starGenerateTimerBase, resX, resY); // Updates stars
-		for(unsigned int i = 0; i < stars.size(); i++){
-		    stars[i]->pos.y += player.speed;
-		    stars[i]->starShape.setPosition(stars[i]->pos);
-		    if(stars[i]->pos.y >= resY)
-			stars.erase(stars.begin() + i); // Erases stars if ^ (below screen)
-		}
 
 		player.update(view, resX, resY, hasFocus);
 
 		for(unsigned int j = 0; j < explosions.size(); j++){
-		    explosions[j]->update();
-		    if(explosions[j]->shapes.size() <= 0 && explosions[j]->amountMade >= explosions[j]->amount){
+		    explosions[j].update();
+		    if(explosions[j].shapes.size() <= 0 && explosions[j].amountMade >= explosions[j].amount){
 			explosions.erase(explosions.begin() + j);
 		    }
 		}
 
 		for(unsigned int i = 0; i < enemies.size(); i++){
-		    enemies[i]->update(player.bullets, player.pos, player.alive, score);
-		    if(!enemies[i]->alive){
-				std::unique_ptr<Explosion> explosion = std::make_unique<Explosion>(enemies[i]->pos);
+		    enemies[i].update(player.bullets, player.pos, player.alive, score);
+		    if(!enemies[i].alive){
+			Explosion explosion(enemies[i].pos);
 
-				if(!enemies[i]->exploded){
-					explosions.push_back(std::move(explosion));
-					enemies[i]->exploded = true;
-				}
+			if(!enemies[i].exploded){
+			    explosions.push_back(explosion);
+			    enemies[i].exploded = true;
+			}
+
+			if(enemies[i].bullets.size() == 0){
+			    enemies.erase(enemies.begin() + i);
+			}
 
 		    }
 
-		    for(unsigned int o = 0; o < enemies[i]->bullets.size(); o++){ // Enemy bullets -> player collisions and handling
+		    for(unsigned int o = 0; o < enemies[i].bullets.size(); o++){ // Enemy bullets . player collisions and handling
 			if(player.shieldBool == false){
-			    if(player.alive && enemies[i]->bullets[o]->shape.getGlobalBounds().intersects(player.playerShape.getGlobalBounds())){
-				enemies[i]->bullets.erase(enemies[i]->bullets.begin() + o);
+			    if(player.alive && enemies[i].bullets[o].shape.getGlobalBounds().intersects(player.playerShape.getGlobalBounds())){
+				enemies[i].bullets.erase(enemies[i].bullets.begin() + o);
 				if(player.lives <= 1){ 
 				    if(score > highScore){
 					fout.open("src/LOG.SAV");
@@ -321,8 +427,8 @@ int main(){
 			    }
 			}
 			else{
-			    if(player.alive && enemies[i]->bullets[o]->shape.getGlobalBounds().intersects(player.shield.shape.getGlobalBounds())){
-				enemies[i]->bullets.erase(enemies[i]->bullets.begin() + o);
+			    if(player.alive && enemies[i].bullets[o].shape.getGlobalBounds().intersects(player.shield.shape.getGlobalBounds())){
+				enemies[i].bullets.erase(enemies[i].bullets.begin() + o);
 			    }
 			}
 		    }
@@ -356,15 +462,18 @@ int main(){
 		if(enemyTimer <= 0){
 		    int enemyChoice = rand() % 3 + 0;
 		    if(enemyChoice == 1){
-			enemies.push_back(std::unique_ptr<Enemy>(new Enemy (sf::Vector2f(15, 20), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_DOWN, rand() % 75 + 20)));
+			Enemy enemy(sf::Vector2f(15, 20), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_DOWN, rand() % 75 + 20);
+			enemies.push_back(enemy);
 			enemyTimer = enemyTimerBase;
 		    }	
 		    else if(enemyChoice == 2){
-			enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_RIGHT, rand() % 75 + 20)));
+			Enemy enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_RIGHT, rand() % 75 + 20);
+			enemies.push_back(enemy);
 			enemyTimer = enemyTimerBase;
 		    }		
 		    else{
-			enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_LEFT, rand() % 75 + 20)));
+			Enemy enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_LEFT, rand() % 75 + 20);
+			enemies.push_back(enemy);
 			enemyTimer = enemyTimerBase;
 		    }
 		}
@@ -379,7 +488,6 @@ int main(){
 		if(window.getSize().y <= 600)
 		    window.setSize(sf::Vector2u(800, 600));
 
-
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
 		    if(!helpOpen && helpTimer <= 0){
 			helpOpen = true;
@@ -389,6 +497,12 @@ int main(){
 			helpOpen = false;
 			helpTimer = helpTimerBase;
 		    }
+		}
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+		    drawPauseText = true;
+		    inGame = false;
+		    inMenu = true;
 		}
 
 	    }

@@ -43,7 +43,7 @@ class Player{
 
 	bool drawEngineParticles;
 
-	std::vector<std::unique_ptr<Bullet>> bullets;
+	std::vector<Bullet> bullets;
 
 	bool alive;
 

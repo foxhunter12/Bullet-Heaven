@@ -48,19 +48,19 @@ void ParticleEmitter::init(sf::Vector2f npos, sf::Vector2f nbaseSpeed, sf::Vecto
 
 void ParticleEmitter::render(sf::RenderWindow& window){
 	for(unsigned int i = 0; i < particles.size(); i++){
-		window.draw(particles[i]->shape, sf::BlendAdd); // Basic rendering with a small render effect to make them brighter against other colors.
+		window.draw(particles[i].shape, sf::BlendAdd); // Basic rendering with a small render effect to make them brighter against other colors.
 	}
 }
 
 void ParticleEmitter::update(float speed){
 	for(unsigned int i = 0; i < particles.size(); i++){
-		particles[i]->travelledDistanceX++;
-		particles[i]->travelledDistanceY++;
-		particles[i]->pos.x += particles[i]->speed.x;
-	   	particles[i]->pos.y += particles[i]->speed.y;	
-		particles[i]->shape.setPosition(particles[i]->pos);
-		particles[i]->shape.rotate(particles[i]->rotSpeed);
-		if(particles[i]->travelledDistanceX >= removeDistance.x || particles[i]->travelledDistanceY >= removeDistance.y){
+		particles[i].travelledDistanceX++;
+		particles[i].travelledDistanceY++;
+		particles[i].pos.x += particles[i].speed.x;
+	   	particles[i].pos.y += particles[i].speed.y;	
+		particles[i].shape.setPosition(particles[i].pos);
+		particles[i].shape.rotate(particles[i].rotSpeed);
+		if(particles[i].travelledDistanceX >= removeDistance.x || particles[i].travelledDistanceY >= removeDistance.y){
 			particles.erase(particles.begin() + i);
 		}
 	}
@@ -160,6 +160,6 @@ void ParticleEmitter::createParticle(){
 		case(PET_LEFT): finalSpeed.y *= 0; finalSpeed.y += tempSpeedY2; break;
 		case(PET_RIGHT): finalSpeed.y *= 0; finalSpeed.y += tempSpeedY2; break;
 	}
-
-	particles.push_back(std::unique_ptr<Particle>(new Particle(pos, finalSpeed, finalSize, color, finalRotSpeed))); // create the particle
+	Particle particle(pos, finalSpeed, finalSize, color, finalRotSpeed); // create the particle
+	particles.push_back(particle);
 }

@@ -17,6 +17,6 @@ Star::Star(sf::Vector2f npos, sf::Vector2f nsize, int rot):
 	starShape.setRotation(rot);
 }
 
-void Star::render(std::vector<std::unique_ptr<Star>>& stars, sf::RenderWindow& window){ // Does all star rendering needs
+void Star::render(std::vector<Star>& stars, sf::RenderWindow& window){ // Does all star rendering needs
 	window.draw(starShape);
 }

@@ -27,7 +27,7 @@ public:
 	sf::Vector2f removeDistance;
 	sf::Vector2f speedOffset;
 	sf::Color color;
-	std::vector<std::unique_ptr<Particle>> particles;
+	std::vector<Particle> particles;
 	float sizeVariation;
 	float baseRotationSpeed;
 	int particleCreateTimer;
