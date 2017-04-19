@@ -26,6 +26,12 @@ Enemy::Enemy(sf::Vector2f npos, sf::Vector2f nsize, float nspeed, sf::Color ncol
 	shape.setOutlineColor(outlineColor);
 	shape.setOutlineThickness(outlineThickness);
 
+	windowShape.setSize(sf::Vector2f(3, 3));
+	windowShape.setFillColor(sf::Color::Black);
+	windowShape.setOutlineColor(sf::Color::White);
+	windowShape.setOutlineThickness(3);
+
+
 	if(type == E_DOWN){
 	    pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(20, 20), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_UP, sf::Color(100, 100, 25)); // Create an particle emitter, with color orange.
 	}
@@ -65,6 +71,13 @@ Enemy::Enemy(sf::Vector2f nsize, float nspeed, sf::Color ncolor, sf::Color noutl
 	shape.setFillColor(color);
 	shape.setOutlineColor(outlineColor);
 	shape.setOutlineThickness(outlineThickness);
+
+
+	windowShape.setSize(sf::Vector2f(3, 3));
+	windowShape.setFillColor(sf::Color::Black);
+	windowShape.setOutlineColor(sf::Color::White);
+	windowShape.setOutlineThickness(3);
+
 	if(type == E_DOWN){
 	    pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_UP, sf::Color(200, 200, 25)); // Create an particle emitter, with color orange.
 	}
@@ -105,6 +118,13 @@ Enemy::Enemy(): // Default const.
 	shape.setFillColor(color);
 	shape.setOutlineColor(outlineColor);
 	shape.setOutlineThickness(outlineThickness);
+
+	windowShape.setSize(sf::Vector2f(3, 3));
+	windowShape.setFillColor(sf::Color::Black);
+	windowShape.setOutlineColor(sf::Color::White);
+	windowShape.setOutlineThickness(3);
+
+
 	alive = true;
 
 	bulletCreateTimer = 35;
@@ -143,7 +163,8 @@ void Enemy::render(sf::RenderWindow& window){
 	    pe1.canMakeParticles = false;
 	}
 	pe1.render(window);
-	window.draw(shape);
+    	window.draw(shape);
+	window.draw(windowShape);
     }
     for(unsigned int i = 0; i < bullets.size(); i++){
 	bullets[i].render(window);
@@ -158,6 +179,11 @@ void Enemy::update(std::vector<Bullet>& playerBullets, sf::Vector2f playerPos, b
 	    pe1.pos = sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2));
 	}
 	pe1.update(speed);
+	
+	if(type == E_DOWN)
+	    windowShape.setPosition(sf::Vector2f((pos.x+size.x/2)-1, (pos.y+size.y/2)-2));
+	if(type == E_LEFT || type == E_RIGHT)
+	    windowShape.setPosition(sf::Vector2f((pos.x+size.x/2)-2, (pos.y+size.y/2)-1));
 
 	bulletCreateTimer--;
 	if(bulletCreateTimer <= 0 && playerAlive){ // Creates bullet and decides the speed for the bullet so it can go towards the player.

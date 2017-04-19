@@ -31,6 +31,7 @@ class Enemy{
 	sf::Vector2f pos;
 	sf::Vector2f size;
 	sf::RectangleShape shape;
+	sf::RectangleShape windowShape;
 	std::vector<Bullet> bullets;
 	int bulletCreateTimer;
 	int bulletCreateTimerBase;
