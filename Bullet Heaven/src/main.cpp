@@ -109,7 +109,7 @@ int main(int argc, char* argv[]){
 
     std::vector<Explosion> explosions; // List o' explosions for when enemies die.
 
-    std::vector<Enemy> enemies;
+    std::vector<std::unique_ptr<Enemy>> enemies;
 
     float tempSpeed = player.speed + 1;
 
@@ -259,7 +259,7 @@ int main(int argc, char* argv[]){
 	    }
 
 	    for(unsigned int i = 0 ; i < enemies.size(); i++){
-		enemies[i].render(window);
+		enemies[i]->render(window);
 	    }
 
 	    player.render(window);
@@ -385,25 +385,25 @@ int main(int argc, char* argv[]){
 		}
 
 		for(unsigned int i = 0; i < enemies.size(); i++){
-		    enemies[i].update(player.bullets, player.pos, player.alive, score);
-		    if(!enemies[i].alive){
-			Explosion explosion(enemies[i].pos);
+		    enemies[i]->update(player.bullets, player.pos, player.alive, score);
+		    if(!enemies[i]->alive){
+			Explosion explosion(enemies[i]->pos);
 
-			if(!enemies[i].exploded){
+			if(!enemies[i]->exploded){
 			    explosions.push_back(explosion);
-			    enemies[i].exploded = true;
+			    enemies[i]->exploded = true;
 			}
 
-			if(enemies[i].bullets.size() == 0){
+			if(enemies[i]->bullets.size() == 0){
 			    enemies.erase(enemies.begin() + i);
 			}
 
 		    }
 
-		    for(unsigned int o = 0; o < enemies[i].bullets.size(); o++){ // Enemy bullets . player collisions and handling
+		    for(unsigned int o = 0; o < enemies[i]->bullets.size(); o++){ // Enemy bullets . player collisions and handling
 			if(player.shieldBool == false){
-			    if(player.alive && enemies[i].bullets[o].shape.getGlobalBounds().intersects(player.playerShape.getGlobalBounds())){
-				enemies[i].bullets.erase(enemies[i].bullets.begin() + o);
+			    if(player.alive && enemies[i]->bullets[o].shape.getGlobalBounds().intersects(player.playerShape.getGlobalBounds())){
+				enemies[i]->bullets.erase(enemies[i]->bullets.begin() + o);
 				if(player.lives <= 1){ 
 				    if(score > highScore){
 					fout.open("src/LOG.SAV");
@@ -427,8 +427,8 @@ int main(int argc, char* argv[]){
 			    }
 			}
 			else{
-			    if(player.alive && enemies[i].bullets[o].shape.getGlobalBounds().intersects(player.shield.shape.getGlobalBounds())){
-				enemies[i].bullets.erase(enemies[i].bullets.begin() + o);
+			    if(player.alive && enemies[i]->bullets[o].shape.getGlobalBounds().intersects(player.shield.shape.getGlobalBounds())){
+				enemies[i]->bullets.erase(enemies[i]->bullets.begin() + o);
 			    }
 			}
 		    }
@@ -462,18 +462,15 @@ int main(int argc, char* argv[]){
 		if(enemyTimer <= 0){
 		    int enemyChoice = rand() % 3 + 0;
 		    if(enemyChoice == 1){
-			Enemy enemy(sf::Vector2f(15, 20), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_DOWN, rand() % 75 + 20);
-			enemies.push_back(enemy);
+			enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(15, 20), rand() % (int)tempSpeed + 1, sf::Color(130, 0, 130), sf::Color::White, 1.f, E_DOWN, rand() % 75 + 20)));
 			enemyTimer = enemyTimerBase;
 		    }	
 		    else if(enemyChoice == 2){
-			Enemy enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_RIGHT, rand() % 75 + 20);
-			enemies.push_back(enemy);
+			enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color(130, 0, 130), sf::Color::White, 1.f, E_RIGHT, rand() % 75 + 20)));
 			enemyTimer = enemyTimerBase;
 		    }		
 		    else{
-			Enemy enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color::Red, sf::Color::White, 1.f, E_LEFT, rand() % 75 + 20);
-			enemies.push_back(enemy);
+			enemies.push_back(std::unique_ptr<Enemy>(new Enemy(sf::Vector2f(20, 15), rand() % (int)tempSpeed + 1, sf::Color(130, 0, 130), sf::Color::White, 1.f, E_LEFT, rand() % 75 + 20)));
 			enemyTimer = enemyTimerBase;
 		    }
 		}
