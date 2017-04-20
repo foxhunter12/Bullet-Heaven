@@ -80,7 +80,7 @@ int main(){
 
     sf::Clock clock;
 
-    sf::RenderWindow window(sf::VideoMode(resX, resY), "Bullet Heaven", (sf::Style::Resize + sf::Style::Close)); //Basic window properties
+    sf::RenderWindow window(sf::VideoMode(resX, resY), "Bullet Heaven"); //Basic window properties
 
     bool hasFocus = true;
 

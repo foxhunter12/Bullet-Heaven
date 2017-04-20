@@ -79,13 +79,13 @@ Enemy::Enemy(sf::Vector2f nsize, float nspeed, sf::Color ncolor, sf::Color noutl
 	windowShape.setOutlineThickness(3);
 
 	if(type == E_DOWN){
-	    pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_UP, sf::Color::Magenta); // Create an particle emitter, with color orange.
+	    pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_UP, sf::Color::Red); // Create an particle emitter, with color orange.
 	}
 	if(type == E_LEFT){
-	    pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_RIGHT, sf::Color::Magenta); // Create an particle emitter, with color orange.
+	    pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_RIGHT, sf::Color::Red); // Create an particle emitter, with color orange.
 	}
 	if(type == E_RIGHT){
-	    pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_LEFT, sf::Color::Magenta); // Create an particle emitter, with color orange.
+	    pe1.init(sf::Vector2f(pos.x + (size.x/2), pos.y + (size.y/2)), sf::Vector2f(speed, speed), sf::Vector2f(2.75f, 2.75f), sf::Vector2f(15, 15), sf::Vector2f(1.f, 1.f), 30.0f, 15.f, 1, PET_LEFT, sf::Color::Red); // Create an particle emitter, with color orange.
 	}
 	alive = true;
 
