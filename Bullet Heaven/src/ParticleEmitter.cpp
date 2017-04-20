@@ -48,7 +48,7 @@ void ParticleEmitter::init(sf::Vector2f npos, sf::Vector2f nbaseSpeed, sf::Vecto
 
 void ParticleEmitter::render(sf::RenderWindow& window){
 	for(unsigned int i = 0; i < particles.size(); i++){
-		window.draw(particles[i].shape, sf::BlendAdd); // Basic rendering with a small render effect to make them brighter against other colors.
+		window.draw(particles[i].shape); // Basic rendering with a small render effect to make them brighter against other colors.
 	}
 }
 
