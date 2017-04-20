@@ -65,7 +65,7 @@ sf::View getLetterboxView(sf::View view, int windowWidth, int windowHeight){
     return view;
 }
 
-int main(){
+int main(int argc, char* argv[]){
 
     int resX = 800;
     int resY = 600;
