@@ -1,8 +1,8 @@
 2016-2017 Hunter Kepley
 
-#Bullet Heaven
+# Bullet Heaven
 
-##Controls
+## Controls
 ###	WASD to move ship.
 ###	Spacebar to shoot.
 ###	R to respawn/restart once dead.
