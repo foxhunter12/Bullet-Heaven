@@ -18,8 +18,8 @@
 
 1. You need the SFML 2.3.2 library and a c++ compiler
 
- * [(Located here)]
+ * [(SFML Located here)]
 
 2. Then just run the `make_game.sh` file
 
-[(Located here)]: https://www.sfml-dev.org/download/sfml/2.3.2/
+[(SFML Located here)]: https://www.sfml-dev.org/download/sfml/2.3.2/
