@@ -9,6 +9,17 @@
 ###	Press E to use shield.
 ###	H for help ingame.
 	    
-kepley.l.hunter@gmail.com -- contact
 
-Game by Hunter L. Kepley
+-----
+=====
+-----
+
+# Building
+
+1. You need the SFML 2.3.2 library and a c++ compiler
+
+ * [(Located here)]
+
+2. Then just run the `make_game.sh` file
+
+[(Located here)]: https://www.sfml-dev.org/download/sfml/2.3.2/
